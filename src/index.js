@@ -81,8 +81,11 @@ const schedule = process.env.CRON_SCHEDULE || '0 9 * * *'; // Default to 9:00 AM
 console.log(`Scheduling auto-poster with cron: "${schedule}"`);
 
 cron.schedule(schedule, () => {
-  console.log(`[Cron Job triggered at ${new Date().toISOString()}]`);
+  console.log(`[Cron Job triggered at ${new Date().toLocaleString('en-MA', { timeZone: 'Africa/Casablanca' })}]`);
   runAutoPoster();
+}, {
+  scheduled: true,
+  timezone: "Africa/Casablanca"
 });
 
 // For testing purposes: Option to run once immediately if an argument is passed
