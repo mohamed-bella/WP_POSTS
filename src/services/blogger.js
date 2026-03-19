@@ -9,23 +9,27 @@ require('dotenv').config();
  * @returns {Promise<string|null>} The URL of the published post, or null on failure.
  */
 async function createBloggerPost(blogId, title, content) {
-  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-    console.warn('GOOGLE_SERVICE_ACCOUNT_JSON is missing. Skipping Blogger post.');
+  const { BLOGGER_CLIENT_ID, BLOGGER_CLIENT_SECRET, BLOGGER_REFRESH_TOKEN } = process.env;
+
+  if (!BLOGGER_CLIENT_ID || !BLOGGER_CLIENT_SECRET || !BLOGGER_REFRESH_TOKEN) {
+    console.warn('Blogger OAuth credentials are missing. Skipping Blogger post.');
     return null;
   }
 
   try {
-    const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
-    const jwt = new google.auth.JWT(
-      serviceAccount.client_email,
-      null,
-      serviceAccount.private_key,
-      ['https://www.googleapis.com/auth/blogger']
+    const oauth2Client = new google.auth.OAuth2(
+      BLOGGER_CLIENT_ID,
+      BLOGGER_CLIENT_SECRET,
+      'http://localhost'
     );
+
+    oauth2Client.setCredentials({
+      refresh_token: BLOGGER_REFRESH_TOKEN,
+    });
 
     const blogger = google.blogger({
       version: 'v3',
-      auth: jwt,
+      auth: oauth2Client,
     });
 
     // We add a disclaimer linking back to the original post for SEO purposes

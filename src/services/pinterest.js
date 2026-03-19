@@ -1,8 +1,6 @@
 const axios = require('axios');
 require('dotenv').config();
 
-const PINTEREST_API_URL = 'https://api.pinterest.com/v5/pins';
-
 /**
  * Creates a Pin on Pinterest.
  * @param {string} title The title of the pin (max 100 chars).
@@ -14,6 +12,11 @@ const PINTEREST_API_URL = 'https://api.pinterest.com/v5/pins';
 async function createPin({ title, description, link, imageUrl }) {
   const accessToken = process.env.PINTEREST_ACCESS_TOKEN;
   const boardId = process.env.PINTEREST_BOARD_ID;
+  const environment = process.env.PINTEREST_ENVIRONMENT || 'sandbox'; // Default to sandbox because of trial access
+
+  const PINTEREST_API_URL = environment === 'production' 
+    ? 'https://api.pinterest.com/v5/pins' 
+    : 'https://api-sandbox.pinterest.com/v5/pins';
 
   if (!accessToken || !boardId) {
     console.warn('PINTEREST_ACCESS_TOKEN or PINTEREST_BOARD_ID is missing. Skipping Pinterest publish.');
