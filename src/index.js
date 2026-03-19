@@ -5,7 +5,11 @@ const { uploadMedia, createPost } = require('./services/wordpress');
 const { getNextPendingTopic, markAsPublished } = require('./services/google-sheets');
 const { createPin } = require('./services/pinterest');
 const { publishToMultipleBloggers } = require('./services/blogger');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
+
+const settingsPath = path.join(__dirname, '../settings.json');
 
 /**
  * Main function to run the auto-posting workflow.
@@ -56,75 +60,108 @@ async function runAutoPoster() {
       article.content = article.content.replace(match[0], imgHtml);
     }
 
-    // 3. Fetch image from Pexels
+    // Read settings from settings.json
+    let settings = { workflows: { wordpress: true, pinterest: true, blogger: true } };
+    try {
+      if (fs.existsSync(settingsPath)) {
+        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+      }
+    } catch (err) {
+      console.warn('Failed to read settings.json. Defaulting to true for all.');
+    }
+
+    // 3. Fetch image from Pexels (Only if WordPress or Pinterest needs it)
     let featuredMediaId = null;
     let featuredImageUrl = null;
-    if (article.imageSearchTerm) {
-      console.log(`Fetching stock image for: "${article.imageSearchTerm}"...`);
-      const imageUrl = await fetchStockImage(article.imageSearchTerm);
-      
-      if (imageUrl) {
-        featuredImageUrl = imageUrl;
-        console.log(`Image found: ${imageUrl}. Uploading to WordPress with alt text...`);
-        featuredMediaId = await uploadMedia(
-          imageUrl, 
-          `${article.slug}.jpg`, 
-          article.altText
-        );
-      } else {
-        console.warn('No image found for search term.');
+    
+    if (settings.workflows.wordpress || settings.workflows.pinterest) {
+      if (article.imageSearchTerm) {
+        console.log(`Fetching stock image for: "${article.imageSearchTerm}"...`);
+        const imageUrl = await fetchStockImage(article.imageSearchTerm);
+        
+        if (imageUrl) {
+          featuredImageUrl = imageUrl;
+          
+          if (settings.workflows.wordpress) {
+            console.log(`Image found: ${imageUrl}. Uploading to WordPress with alt text...`);
+            featuredMediaId = await uploadMedia(
+              imageUrl, 
+              `${article.slug}.jpg`, 
+              article.altText
+            );
+          }
+        } else {
+          console.warn('No image found for search term.');
+        }
       }
     }
 
+    let wpPostLink = '';
+
     // 4. Create post in WordPress with SEO metadata
-    console.log('Publishing story to WordPress with SEO metadata...');
-    const post = await createPost({
-      title: article.title,
-      subtitle: article.subtitle,
-      authorName: article.authorName,
-      readingTime: article.readingTime,
-      content: article.content,
-      featuredMediaId: featuredMediaId,
-      metaDescription: article.metaDescription,
-      focusKeyword: focusKeyword,             // <-- Rank Math focus keyword
-      slug: article.slug,
-    });
+    if (settings.workflows.wordpress) {
+      console.log('Publishing story to WordPress with SEO metadata...');
+      const post = await createPost({
+        title: article.title,
+        subtitle: article.subtitle,
+        authorName: article.authorName,
+        readingTime: article.readingTime,
+        content: article.content,
+        featuredMediaId: featuredMediaId,
+        metaDescription: article.metaDescription,
+        focusKeyword: focusKeyword,             // <-- Rank Math focus keyword
+        slug: article.slug,
+      });
 
-    console.log(`Post published successfully! URL: ${post.link}`);
+      wpPostLink = post.link;
+      console.log(`Post published successfully! URL: ${wpPostLink}`);
 
-    // 5. Update Google Sheets
-    console.log(`Updating Google Sheet...`);
-    await markAsPublished(_row, post.link);
+      // 5. Update Google Sheets
+      console.log(`Updating Google Sheet...`);
+      await markAsPublished(_row, wpPostLink);
+    } else {
+      console.log('Skipping WordPress publishing (disabled in settings.json).');
+    }
 
     // 6. Share on Pinterest
-    if (featuredImageUrl) {
-      console.log('Sharing article on Pinterest...');
-      await createPin({
-        title: article.title,
-        description: article.metaDescription, // Using meta description for Pinterest
-        link: post.link,
-        imageUrl: featuredImageUrl
-      });
+    if (settings.workflows.pinterest) {
+      if (featuredImageUrl && wpPostLink) {
+        console.log('Sharing article on Pinterest...');
+        await createPin({
+          title: article.title,
+          description: article.metaDescription, // Using meta description for Pinterest
+          link: wpPostLink,
+          imageUrl: featuredImageUrl
+        });
+      } else {
+        console.log('Skipping Pinterest share because no image or WP Link is available.');
+      }
     } else {
-      console.log('Skipping Pinterest share because no image is available.');
+      console.log('Skipping Pinterest share (disabled in settings.json).');
     }
 
     // 7. Publish to Blogger sites
-    const bloggerIdsRaw = process.env.BLOGGER_IDS;
-    if (bloggerIdsRaw) {
-      const blogIds = bloggerIdsRaw.split(',').map(id => id.trim()).filter(id => id);
-      if (blogIds.length > 0) {
-        console.log(`Publishing article to ${blogIds.length} Blogger website(s)...`);
-        
-        // We include a link back to the original post on WP for Canonical SEO value
-        const contentForBlogger = `
-          ${article.content}
-          <hr/>
-          <p>Read the full original article here: <a href="${post.link}">${post.link}</a></p>
-        `;
-        
-        await publishToMultipleBloggers(blogIds, article.title, contentForBlogger);
+    if (settings.workflows.blogger) {
+      const bloggerIdsRaw = process.env.BLOGGER_IDS;
+      if (bloggerIdsRaw) {
+        const blogIds = bloggerIdsRaw.split(',').map(id => id.trim()).filter(id => id);
+        if (blogIds.length > 0) {
+          console.log(`Publishing article to ${blogIds.length} Blogger website(s)...`);
+          
+          let contentForBlogger = article.content;
+          
+          if (wpPostLink) {
+            contentForBlogger += `
+              <hr/>
+              <p>Read the full original article here: <a href="${wpPostLink}">${wpPostLink}</a></p>
+            `;
+          }
+          
+          await publishToMultipleBloggers(blogIds, article.title, contentForBlogger);
+        }
       }
+    } else {
+      console.log('Skipping Blogger publishing (disabled in settings.json).');
     }
   } catch (error) {
     console.error('Workflow failed:', error.message);

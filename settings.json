@@ -1,0 +1,7 @@
+{
+  "workflows": {
+    "wordpress": true,
+    "pinterest": false,
+    "blogger": true
+  }
+}
