@@ -3,6 +3,7 @@ const { generateArticle } = require('./services/openai');
 const { fetchStockImage } = require('./services/image');
 const { uploadMedia, createPost } = require('./services/wordpress');
 const { getNextPendingTopic, markAsPublished } = require('./services/google-sheets');
+const { createPin } = require('./services/pinterest');
 require('dotenv').config();
 
 /**
@@ -32,11 +33,13 @@ async function runAutoPoster() {
 
     // 3. Fetch image from Pexels
     let featuredMediaId = null;
+    let featuredImageUrl = null;
     if (article.imageSearchTerm) {
       console.log(`Fetching stock image for: "${article.imageSearchTerm}"...`);
       const imageUrl = await fetchStockImage(article.imageSearchTerm);
       
       if (imageUrl) {
+        featuredImageUrl = imageUrl;
         console.log(`Image found: ${imageUrl}. Uploading to WordPress with alt text...`);
         featuredMediaId = await uploadMedia(
           imageUrl, 
@@ -67,6 +70,19 @@ async function runAutoPoster() {
     // 5. Update Google Sheets
     console.log(`Updating Google Sheet...`);
     await markAsPublished(_row, post.link);
+
+    // 6. Share on Pinterest
+    if (featuredImageUrl) {
+      console.log('Sharing article on Pinterest...');
+      await createPin({
+        title: article.title,
+        description: article.metaDescription, // Using meta description for Pinterest
+        link: post.link,
+        imageUrl: featuredImageUrl
+      });
+    } else {
+      console.log('Skipping Pinterest share because no image is available.');
+    }
   } catch (error) {
     console.error('Workflow failed:', error.message);
   }
