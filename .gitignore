@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.local
+.vscode/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.DS_Store
+dist/
+build/
+topics.json
+# Keep topics.json if the user wants it, but usually topics are fetched from Google Sheets.
+# Actually, the user has topics.json, but in conversation they moved to Google Sheets.
+# I'll exclude it to be safe, but they can always add it.
