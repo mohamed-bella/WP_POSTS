@@ -59,6 +59,7 @@ CONTENT STRUCTURE:
 6) Add a FAQ section at the end with minimum 5 questions. Answer each like you're replying to a WhatsApp message from a family planning their trip.
 7) Mention real places, distances, travel times, and practical logistics.
 8) Suggest 3-5 relevant external links (travel resources, official tourism sites, weather tools, etc.) with a note on why each is useful. Format them as plain text suggestions — I'll decide which to include.
+9) Include exactly 3 image placeholders randomly distributed between your H2/H3 sections. The format MUST be exactly: [IMAGE_PLACEHOLDER: short descriptive search term for unsplash]
 
 ---
 

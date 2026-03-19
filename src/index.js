@@ -1,9 +1,10 @@
 const cron = require('node-cron');
 const { generateArticle } = require('./services/openai');
-const { fetchStockImage } = require('./services/image');
+const { fetchStockImage, fetchUnsplashImage } = require('./services/image');
 const { uploadMedia, createPost } = require('./services/wordpress');
 const { getNextPendingTopic, markAsPublished } = require('./services/google-sheets');
 const { createPin } = require('./services/pinterest');
+const { publishToMultipleBloggers } = require('./services/blogger');
 require('dotenv').config();
 
 /**
@@ -30,6 +31,30 @@ async function runAutoPoster() {
     console.log('Generating SEO-optimized content with OpenAI...');
     const article = await generateArticle(topic, keywords, internalLinks);
     console.log(`Article generated: "${article.title}"`);
+
+    // 2.5 Replace Unsplash image placeholders in the content
+    const placeholderRegex = /\[IMAGE_PLACEHOLDER:\s*(.*?)\]/g;
+    let match;
+    while ((match = placeholderRegex.exec(article.content)) !== null) {
+      const query = match[1];
+      console.log(`Fetching Unsplash image for placeholder: "${query}"...`);
+      const unsplashData = await fetchUnsplashImage(query);
+      
+      let imgHtml = '';
+      if (unsplashData) {
+        imgHtml = `
+          <figure class="wp-block-image size-large">
+            <img src="${unsplashData.url}" alt="${unsplashData.alt}">
+            <figcaption>Photo by ${unsplashData.author} on Unsplash</figcaption>
+          </figure>
+        `;
+      } else {
+        console.warn(`Could not fetch Unsplash image for: "${query}"`);
+      }
+      
+      // Replace only this exact match instance per iteration
+      article.content = article.content.replace(match[0], imgHtml);
+    }
 
     // 3. Fetch image from Pexels
     let featuredMediaId = null;
@@ -82,6 +107,24 @@ async function runAutoPoster() {
       });
     } else {
       console.log('Skipping Pinterest share because no image is available.');
+    }
+
+    // 7. Publish to Blogger sites
+    const bloggerIdsRaw = process.env.BLOGGER_IDS;
+    if (bloggerIdsRaw) {
+      const blogIds = bloggerIdsRaw.split(',').map(id => id.trim()).filter(id => id);
+      if (blogIds.length > 0) {
+        console.log(`Publishing article to ${blogIds.length} Blogger website(s)...`);
+        
+        // We include a link back to the original post on WP for Canonical SEO value
+        const contentForBlogger = `
+          ${article.content}
+          <hr/>
+          <p>Read the full original article here: <a href="${post.link}">${post.link}</a></p>
+        `;
+        
+        await publishToMultipleBloggers(blogIds, article.title, contentForBlogger);
+      }
     }
   } catch (error) {
     console.error('Workflow failed:', error.message);
