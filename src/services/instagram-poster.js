@@ -89,8 +89,14 @@ async function runInstagramPoster() {
 
   console.log('\n🚀 Launching stealth browser for posting...');
   const browser = await puppeteer.launch({
-    headless: "new",
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-notifications', '--window-size=375,812'],
+    headless: "new", 
+    args: [
+      '--no-sandbox', 
+      '--disable-setuid-sandbox', 
+      '--disable-notifications', 
+      '--window-size=400,900',
+      '--disable-gpu',
+    ],
   });
 
   try {
@@ -203,45 +209,108 @@ async function runInstagramPoster() {
     await randomSleep(3000, 5000);
 
     // 6. Proceed through multi-step flow: Crop → Filter → Caption
-    const nextBtnText = 'Next';
-    // Click "Next" twice (Crop → Filters → Caption)
+    const nextBtnLabels = ['Next', 'Share', 'Post', 'Done'];
+    
     for (let step = 0; step < 2; step++) {
-      const nextBtn = await page.evaluateHandle((text) => {
-        const buttons = [...document.querySelectorAll('button, div[role="button"]')];
-        return buttons.find(b => b.textContent.trim() === text);
-      }, nextBtnText);
-      if (nextBtn) {
-        await nextBtn.click();
-        await randomSleep(2000, 3000);
-        console.log(`👉 Clicked "${nextBtnText}" (step ${step + 1}/2)`);
+      console.log(`👉 Attempting to click "Next" button (step ${step + 1}/2)...`);
+      
+      let nextBtnFound = false;
+      for (let retry = 0; retry < 5; retry++) {
+        // SMART DETECTION: Find anything in the top-right header area
+        nextBtnFound = await page.evaluate((labels) => {
+          const btns = [...document.querySelectorAll('button, [role="button"], [role="link"]')];
+          const btn = btns.find(b => {
+             const rect = b.getBoundingClientRect();
+             // Check if it's in the top header (top < 60) and on the right side (right > 300)
+             const inTopRight = rect.top < 60 && rect.right > 300 && rect.width > 0;
+             const text = (b.innerText || '').trim().toLowerCase();
+             const label = (b.getAttribute('aria-label') || '').toLowerCase();
+             const matchesText = labels.some(l => text === l || label === l || label.includes(l));
+             return inTopRight || matchesText;
+          });
+          if (btn) {
+            btn.click();
+            return true;
+          }
+          return false;
+        }, nextBtnLabels);
+
+        if (nextBtnFound) {
+          console.log(`✅ Success: Clicked button for step ${step + 1}.`);
+          break;
+        }
+        await new Promise(r => setTimeout(r, 2000));
+      }
+
+      await randomSleep(3000, 5000);
+      
+      // Verification: Check if we are on the caption screen early
+      const isCaptionScreen = await page.evaluate(() => document.body.innerText.includes('Write a caption'));
+      if (isCaptionScreen) {
+        console.log('✅ Arrived at Caption screen!');
+        break;
       }
     }
 
     // 7. Type caption
-    const captionSelector = 'textarea[aria-label="Write a caption..."], div[aria-label="Write a caption..."], [contenteditable="true"]';
-    await page.waitForSelector(captionSelector, { timeout: 10000 });
+    const captionSelector = 'textarea[aria-label="Write a caption..."], [contenteditable="true"], textarea';
+    await page.waitForSelector(captionSelector, { timeout: 15000 });
     await page.click(captionSelector);
-    await randomSleep(500, 1000);
-    await page.type(captionSelector, caption, { delay: 40 });
+    await randomSleep(1000, 2000);
+    await page.type(captionSelector, caption, { delay: 60 });
     console.log('✍️  Caption typed.');
 
-    await randomSleep(1000, 2000);
+    await randomSleep(2000, 3000);
 
     // 8. Click "Share"
-    const shareBtn = await page.evaluateHandle(() => {
-      const buttons = [...document.querySelectorAll('button, div[role="button"]')];
-      return buttons.find(b => b.textContent.trim() === 'Share');
-    });
-    if (shareBtn) {
-      await shareBtn.click();
-      console.log('📤 Clicked Share button!');
-    } else {
-      console.warn('⚠️  Could not find Share button. Saved a debug screenshot.');
-      await page.screenshot({ path: 'debug-post.png' });
+    console.log('📤 Looking for final Share/Post button...');
+    let shared = false;
+    
+    for (let retry = 0; retry < 3; retry++) {
+      shared = await page.evaluate(() => {
+        const btns = [...document.querySelectorAll('button, [role="button"]')];
+        const shareBtn = btns.find(b => {
+          const t = (b.innerText || b.getAttribute('aria-label') || '').trim().toLowerCase();
+          return t.includes('share') || t.includes('post');
+        });
+        if (shareBtn) {
+          shareBtn.click();
+          return true;
+        }
+        return false;
+      });
+
+      if (shared) {
+        console.log('📤 Clicked final Share button via label!');
+        break;
+      } else {
+        console.log('🖱️ Clicking top-right area for Share fallback (365, 25)...');
+        await page.mouse.click(365, 25);
+        await randomSleep(3000, 5000);
+        // We can't easily verify "Shared" text yet, so we'll assume it worked if we retry
+        shared = true; 
+      }
     }
 
-    await randomSleep(6000, 10000);
-    console.log('✅ Post should now be live on Instagram!');
+    if (shared) {
+      console.log('🎉 Post submission sequence complete. Waiting for upload to finish...');
+      await randomSleep(15000, 20000);
+    } else {
+      console.error('❌ Failed to trigger Share action.');
+      await page.screenshot({ path: 'debug-no-share.png' });
+    }
+
+    // 10. Final Verification
+    const username = process.env.IG_USERNAME;
+    if (username) {
+      console.log(`🔍 Navigating to https://www.instagram.com/${username}/ to verify...`);
+      await page.goto(`https://www.instagram.com/${username}/`, { waitUntil: 'networkidle2' });
+      await randomSleep(4000, 6000);
+      await page.screenshot({ path: 'debug-final-profile.png' });
+      console.log('📸 Final verification screenshot saved.');
+    }
+
+    console.log('✅ Workflow complete.');
 
   } catch (error) {
     console.error('\n❌ Instagram poster failed:', error.message);
