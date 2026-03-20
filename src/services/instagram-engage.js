@@ -30,8 +30,8 @@ const COMMENTS = [
 ];
 
 async function loginToInstagram() {
-  const username = process.env.IG_USERNAME;
-  const password = process.env.IG_PASSWORD;
+  const username = process.env.IG_USERNAME ? process.env.IG_USERNAME.trim() : null;
+  const password = process.env.IG_PASSWORD ? process.env.IG_PASSWORD.trim() : null;
 
   if (!username || !password) {
     throw new Error('IG_USERNAME or IG_PASSWORD not set in .env');
@@ -39,14 +39,20 @@ async function loginToInstagram() {
 
   ig.state.generateDevice(username);
 
-  // Load session if it exists to avoid repeated logins
+  // Catch checkpoint requests (sometimes IG lies and says bad password when it's just a checkpoint)
+  ig.request.end$.subscribe(async () => {
+    const serialized = await ig.state.serialize();
+    delete serialized.constants;
+    if (serialized) {
+      fs.writeFileSync(STATE_FILE, JSON.stringify(serialized), 'utf8');
+    }
+  });
+
   let loggedIn = false;
   if (fs.existsSync(STATE_FILE)) {
     try {
-      const savedState = await fs.promises.readFile(STATE_FILE, 'utf8');
+      const savedState = fs.readFileSync(STATE_FILE, 'utf8');
       await ig.state.deserialize(savedState);
-      
-      // Basic check if session is still alive
       await ig.user.info(ig.state.cookieUserId);
       console.log('✅ Restored Instagram session from cache.');
       loggedIn = true;
@@ -57,17 +63,35 @@ async function loginToInstagram() {
   }
 
   if (!loggedIn) {
-    console.log(`Logging into Instagram as ${username}...`);
-    // Simulate real app flow
-    await ig.simulate.preLoginFlow();
-    await ig.account.login(username, password);
-    process.nextTick(async () => await ig.simulate.postLoginFlow());
-
-    // Save session right after login
-    const serialized = await ig.state.serialize();
-    delete serialized.constants; // Delete constants from state per docs
-    await fs.promises.writeFile(STATE_FILE, JSON.stringify(serialized));
-    console.log('✅ Instagram login successful. Session saved.');
+    console.log(`Logging into Instagram as '${username}'...`);
+    
+    try {
+      await ig.simulate.preLoginFlow();
+      await sleep(2000); // 2 second delay to let preLoginFlow settle before hitting login
+      
+      const loggedInUser = await ig.account.login(username, password);
+      console.log(`✅ successfully logged in as ${loggedInUser.username}`);
+      
+      try {
+        await ig.simulate.postLoginFlow();
+      } catch (e) {
+        console.warn('⚠️ non-critical error during postLoginFlow automatically skipped:', e.message);
+      }
+    } catch (error) {
+      if (error.name === 'IgCheckpointError' || (error.message && error.message.includes('checkpoint_required'))) {
+        console.log('\n⚠️ Instagram Checkpoint Alert! Instagram wants to verify your identity.');
+        console.log('Check your email/SMS or open the app on your phone to approve the login.');
+        console.log('If you see a "Was this you?" prompt from a Germany/Finland/Hetzner location, click "This Was Me".');
+        throw new Error('Checkpoint hit. Please approve the login on your phone.');
+      } else if (error.name === 'IgLoginBadPasswordError') {
+        console.error('\n❌ CRITICAL: Instagram is actively rejecting this password.');
+        console.error('If you are 100% sure the password is correct, Instagram has "Soft Banned" this IP from logging in.');
+        console.error('Wait 12-24 hours before trying again, or log into the real app on your phone, change your password, and update the .env file.');
+        throw error;
+      } else {
+        throw error;
+      }
+    }
   }
 }
 
@@ -82,8 +106,18 @@ async function runInstagramEngagement() {
   const feed = ig.feed.tags(targetTag, 'recent');
   
   // Get first page
-  const items = await feed.items();
-  console.log(`Found ${items.length} recent posts. Filtering for engagement...`);
+  let items = [];
+  try {
+    items = await feed.items();
+    console.log(`Found ${items.length} recent posts. Filtering for engagement...`);
+  } catch (feedError) {
+    console.error(`\n❌ Error fetching posts for #${targetTag}:`);
+    console.error(feedError.name, feedError.message);
+    if (feedError.response && feedError.response.body) {
+      console.error(feedError.response.body);
+    }
+    return;
+  }
 
   // Filter for non-ads, reasonably engaged posts (to avoid commenting on spam)
   const candidatePosts = items.filter(item => 
