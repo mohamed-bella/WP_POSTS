@@ -1,4 +1,6 @@
 const { google } = require('googleapis');
+const { sendWhatsAppUpdate } = require('./whatsapp');
+const fs = require('fs');
 require('dotenv').config();
 
 /**
@@ -44,7 +46,8 @@ async function createBloggerPost(blogId, title, content) {
       },
     });
 
-    console.log(`Successfully published to Blogger (${blogId}): ${response.data.url}`);
+    console.log(`✅ Post published to Blogger (${blogId}): ${response.data.url}`);
+    await sendWhatsAppUpdate(`📝 *Blogger Published:* ${response.data.title}\n🔗 ${response.data.url}`);
     return response.data.url;
   } catch (error) {
     console.error(`Error posting to Blogger (blogId: ${blogId}):`, error.response?.data?.error?.message || error.message);

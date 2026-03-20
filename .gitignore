@@ -2,7 +2,9 @@ node_modules/
 .env
 .env.local
 .vscode/
-npm-debug.log
+nposter_test*.log
+auth_info_baileys/
+
 yarn-debug.log
 yarn-error.log
 .DS_Store

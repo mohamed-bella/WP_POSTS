@@ -40,6 +40,40 @@ nano .env
 ```
 Copy and paste the contents of your local `.env` file into it. Use `Ctrl+O`, `Enter`, then `Ctrl+X` to save and exit.
 
+## 🚀 Deployment to Hetzner (Always-On)
+
+To keep your bot running 24/7 and performing automated actions (Instagram, WhatsApp, Blogger), follow these steps:
+
+### 1. Prerequisites on Server
+```bash
+sudo apt update
+sudo apt install -y nodejs npm
+sudo npm install -g pm2
+```
+
+### 2. Transfer the Session (Crucial)
+To avoid scanning the QR code again, you MUST copy these from your local machine to the server:
+- `.env` (Your configuration)
+- `cookies.json` (Instagram login)
+- `auth_info_baileys/` (WhatsApp connection folder)
+
+### 3. Start with PM2
+In your project directory on the server:
+```bash
+npm install
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup
+```
+This will ensure the bot restarts automatically if the server reboots.
+
+### 4. Monitoring
+- `pm2 logs`: See real-time updates and WhatsApp notifications status.
+- `pm2 status`: See if the bot is running.
+
+### 5. Automated Scheduling
+The bot handles its own scheduling based on the times defined in `src/engage.js`. As long as PM2 is running, it will post and engage at the correct times.
+
 ### 6. Keep the Process Running with PM2
 Install PM2 globally:
 ```bash

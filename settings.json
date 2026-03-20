@@ -4,6 +4,7 @@
     "pinterest": false,
     "blogger": true,
     "instagram_engage": true,
+    "whatsapp_notifications": true,
     "instagram_poster": true
   }
 }

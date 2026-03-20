@@ -1,10 +1,9 @@
 const { runInstagramStealth } = require('./services/instagram-stealth');
 const { runInstagramPoster } = require('./services/instagram-poster');
-const fs = require('fs');
+const { connectToWhatsApp, sendWhatsAppUpdate, waitForWhatsAppConnection } = require('./services/whatsapp');
+const settings = require('../settings.json');
 const path = require('path');
 require('dotenv').config();
-
-const settingsPath = path.join(__dirname, '../settings.json');
 
 // Helper to delay
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -46,14 +45,14 @@ async function startScheduler() {
   console.log('--- Starting Social Media Engagement Bot ---');
 
   while (true) {
-    let settings = { workflows: { instagram_engage: false } };
-    try {
-      if (fs.existsSync(settingsPath)) {
-        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-      }
-    } catch (e) {
-      console.warn('Could not read settings.json');
-    }
+    // let settings = { workflows: { instagram_engage: false } }; // Removed as settings are now imported directly
+    // try {
+    //   if (fs.existsSync(settingsPath)) {
+    //     settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    //   }
+    // } catch (e) {
+    //   console.warn('Could not read settings.json');
+    // }
 
     if (!settings.workflows?.instagram_engage) {
       console.log('Instagram engagement is disabled in settings.json. Sleeping for 1 hour...');
@@ -112,10 +111,10 @@ async function startScheduler() {
 async function startPosterScheduler() {
   console.log('--- Starting Instagram Auto-Poster ---');
   while (true) {
-    let settings = { workflows: { instagram_poster: false } };
-    try {
-      settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-    } catch(e) {}
+    // let settings = { workflows: { instagram_poster: false } }; // Removed as settings are now imported directly
+    // try {
+    //   settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    // } catch(e) {}
 
     if (!settings.workflows?.instagram_poster) {
       console.log('[Poster] Disabled in settings.json. Sleeping 1h...');
@@ -153,20 +152,29 @@ async function startPosterScheduler() {
 }
 
 // Start immediately if executed directly
-if (require.main === module) {
-  if (process.argv.includes('--now')) {
+// Start the flow
+(async () => {
+  // Initialize WhatsApp if enabled
+  if (settings.workflows.whatsapp_notifications) {
+    try {
+      await connectToWhatsApp();
+      await waitForWhatsAppConnection(); // Wait for user to link/connect
+    } catch (err) {
+      console.error('❌ Failed to start WhatsApp bot:', err.message);
+    }
+  }
+
+  if (process.argv.includes('--post-now')) {
+    console.log('Manual trigger: posting a photo to Instagram NOW...');
+    await sendWhatsAppUpdate('🎯 *Manual Trigger:* Starting Instagram post upload...');
+    await runInstagramPoster();
+    console.log('Manual post done.');
+    process.exit(0);
+  } else if (process.argv.includes('--now')) {
     console.log('Manual trigger detected. Running stealth engagement ONCE now...');
+    await sendWhatsAppUpdate('🎯 *Manual Trigger:* Starting Instagram engagement...');
     runInstagramStealth().then(() => {
       console.log('Manual run finished.');
-      process.exit(0);
-    }).catch(err => {
-      console.error(err);
-      process.exit(1);
-    });
-  } else if (process.argv.includes('--post-now')) {
-    console.log('Manual trigger: posting a photo to Instagram NOW...');
-    runInstagramPoster().then(() => {
-      console.log('Manual post done.');
       process.exit(0);
     }).catch(err => {
       console.error(err);
@@ -179,6 +187,8 @@ if (require.main === module) {
       startPosterScheduler()
     ]);
   }
-}
+})();
+
+module.exports = { startScheduler };
 
 module.exports = { startScheduler };

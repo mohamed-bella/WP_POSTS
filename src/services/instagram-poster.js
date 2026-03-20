@@ -4,6 +4,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { sendWhatsAppUpdate } = require('./whatsapp');
 require('dotenv').config();
 
 puppeteer.use(StealthPlugin());
@@ -43,6 +44,7 @@ async function fetchUnsplashImage() {
 
   const query = QUERIES[Math.floor(Math.random() * QUERIES.length)];
   console.log(`🔎 Fetching Unsplash image for query: "${query}"`);
+  await sendWhatsAppUpdate(`🔎 *Instagram Poster:* Fetching Unsplash image for query: "${query}"`);
 
   const response = await axios.get('https://api.unsplash.com/photos/random', {
     params: { query, orientation: 'squarish', content_filter: 'high' },
@@ -294,6 +296,7 @@ async function runInstagramPoster() {
 
     if (shared) {
       console.log('🎉 Post submission sequence complete. Waiting for upload to finish...');
+      await sendWhatsAppUpdate(`✅ *Instagram Post Shared!* \nCaption: ${caption.substring(0, 100)}...`);
       await randomSleep(15000, 20000);
     } else {
       console.error('❌ Failed to trigger Share action.');
