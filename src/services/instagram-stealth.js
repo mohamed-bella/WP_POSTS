@@ -86,9 +86,10 @@ async function runInstagramStealth() {
     await page.goto(`https://www.instagram.com/explore/tags/${targetTag}/`, { waitUntil: 'networkidle2' });
     await randomSleep(3000, 5000);
 
-    // 4. Wait for posts to appear
-    await page.waitForSelector('article a[href^="/p/"]', { timeout: 15000 });
-    const posts = await page.$$('article a[href^="/p/"]');
+    // 4. Wait for posts to appear (can be /p/ or /reel/)
+    const postSelector = 'a[href*="/p/"], a[href*="/reel/"]';
+    await page.waitForSelector(postSelector, { timeout: 15000 });
+    const posts = await page.$$(postSelector);
 
     if (posts.length === 0) {
       console.log('🤷‍♂️ No posts found on the tag page. Try again later.');
@@ -146,6 +147,13 @@ async function runInstagramStealth() {
 
   } catch (error) {
     console.error('\n❌ Headless browser execution failed:', error.message);
+    try {
+      const pages = await browser.pages();
+      if (pages.length > 0) {
+        await pages[0].screenshot({ path: 'debug-error.png' });
+        console.log('📸 Saved debug screenshot to debug-error.png');
+      }
+    } catch(e) {}
   } finally {
     console.log('🧹 Closing browser...');
     await browser.close();
