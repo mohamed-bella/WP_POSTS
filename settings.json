@@ -2,6 +2,7 @@
   "workflows": {
     "wordpress": true,
     "pinterest": false,
-    "blogger": true
+    "blogger": true,
+    "instagram_engage": true
   }
 }

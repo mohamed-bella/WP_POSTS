@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node src/index.js",
     "now": "node src/index.js --now",
+    "engage": "node src/engage.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,6 +19,7 @@
     "google-auth-library": "^10.6.2",
     "google-spreadsheet": "^5.2.0",
     "googleapis": "^171.4.0",
+    "instagram-private-api": "^1.46.1",
     "node-cron": "^4.2.1",
     "openai": "^6.32.0"
   }
