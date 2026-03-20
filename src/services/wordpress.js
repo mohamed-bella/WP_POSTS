@@ -18,10 +18,11 @@ function getAuth() {
  * Uploads an image to WordPress media library.
  * @param {string} imageUrl  URL of the image to download.
  * @param {string} fileName  Filename to store in WP.
- * @param {string} altText   SEO-optimised alt text.
+ * @param {string} altText   SEO-optimised alt text (format: "{keyword} Morocco {descriptor}").
+ * @param {string} imageTitle The title to set for the media item.
  * @returns {Promise<number|null>} The media attachment ID, or null on failure.
  */
-async function uploadMedia(imageUrl, fileName, altText) {
+async function uploadMedia(imageUrl, fileName, altText, imageTitle) {
   try {
     const auth = getAuth();
     const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
@@ -30,13 +31,15 @@ async function uploadMedia(imageUrl, fileName, altText) {
     const form = new FormData();
     form.append('file', buffer, { filename: fileName, contentType: 'image/jpeg' });
     form.append('alt_text', altText);
+    form.append('title', imageTitle || fileName);
 
     const response = await axios.post(`${WP_URL}/wp-json/wp/v2/media`, form, {
       headers: { ...form.getHeaders(), Authorization: `Basic ${auth}` },
     });
 
-    console.log(`Media uploaded. ID: ${response.data.id}, Alt: "${altText}"`);
-    return response.data.id;
+    const mediaId = response.data.id;
+    console.log(`Media uploaded. ID: ${mediaId}, Alt: "${altText}", Title: "${imageTitle}"`);
+    return mediaId;
   } catch (error) {
     console.error('Error uploading media:', error.response?.data || error.message);
     return null;
@@ -45,14 +48,7 @@ async function uploadMedia(imageUrl, fileName, altText) {
 
 /**
  * Creates a new "mte_story" post in WordPress.
- * Fills all ACF fields and Rank Math SEO meta.
- *
- * ACF field map:
- *  subtitle        => field_mte_story_subtitle  (text)
- *  author_name     => field_mte_author_name     (text)
- *  reading_time    => field_mte_reading_time    (text)
- *  hero_image      => field_mte_hero_image      (image – expects integer attachment ID)
- *  story_content   => field_mte_story_content   (wysiwyg – raw HTML)
+ * Fills all ACF fields, Rank Math SEO meta, and injects FAQ JSON-LD schema.
  *
  * @param {Object} storyData
  * @returns {Promise<Object>} The created WP post object.
@@ -63,23 +59,28 @@ async function createPost({
   authorName,
   readingTime,
   content,
+  faqSchema,       // FAQPage JSON-LD object from OpenAI
   featuredMediaId,
   metaDescription,
-  focusKeyword,   // Primary Rank Math focus keyword (first in the comma list)
+  focusKeyword,
   slug,
 }) {
   const auth = getAuth();
 
-  // hero_image ACF field uses return_format:'array', but when WRITING via REST
-  // you pass just the integer attachment ID -- ACF handles the rest.
   const heroImageId = featuredMediaId ? parseInt(featuredMediaId, 10) : null;
 
-  // story_content is a wysiwyg field; send the raw HTML without extra wrappers
-  // so WP / ACF doesn't double-wrap it.
-  const storyContentHtml = content;
+  // Build the FAQ JSON-LD script block and append to the content
+  let contentWithFaq = content;
+  if (faqSchema) {
+    try {
+      const faqJson = typeof faqSchema === 'string' ? faqSchema : JSON.stringify(faqSchema, null, 2);
+      contentWithFaq += `\n<script type="application/ld+json">\n${faqJson}\n</script>`;
+    } catch (e) {
+      console.warn('Could not serialize faqSchema:', e.message);
+    }
+  }
 
-  // The main post content area can include the wrapper div for front-end rendering.
-  const postContent = `<div class="mte-content-zone"><div class="mte-story-body">${content}</div></div>`;
+  const postContent = `<div class="mte-content-zone"><div class="mte-story-body">${contentWithFaq}</div></div>`;
 
   const payload = {
     title,
@@ -88,30 +89,20 @@ async function createPost({
     slug,
     featured_media: heroImageId,
 
-    // -----------------------------------------------------------
-    // ACF fields — sent via the 'acf' key (requires ACF PRO + REST)
-    // Each key must match the ACF field 'name' (not key/label).
-    // -----------------------------------------------------------
+    // ACF fields
     acf: {
       subtitle:       subtitle      || '',
       author_name:    authorName    || 'Hamid El Maimouni',
       reading_time:   readingTime   || '',
-      hero_image:     heroImageId,          // integer ID for image fields
-      story_content:  storyContentHtml,     // raw HTML for wysiwyg
+      hero_image:     heroImageId,
+      story_content:  contentWithFaq,
     },
 
-    // -----------------------------------------------------------
-    // SEO Meta
-    // Rank Math uses public meta keys (no leading underscore) exposed
-    // via its own REST endpoint modifier. Yoast keys are also included
-    // as a fallback.
-    // -----------------------------------------------------------
+    // SEO meta
     meta: {
-      // Rank Math
       'rank_math_focus_keyword':   focusKeyword    || '',
       'rank_math_description':     metaDescription || '',
       'rank_math_title':           title,
-      // Yoast (fallback)
       '_yoast_wpseo_metadesc':     metaDescription || '',
       '_yoast_wpseo_focuskw':      focusKeyword    || '',
     },

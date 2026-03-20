@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { generateArticle } = require('./services/openai');
+const { generateWordPressArticle, generateBloggerArticle } = require('./services/openai');
 const { fetchStockImage, fetchUnsplashImage } = require('./services/image');
 const { uploadMedia, createPost } = require('./services/wordpress');
 const { getNextPendingTopic, markAsPublished } = require('./services/google-sheets');
@@ -12,16 +12,56 @@ require('dotenv').config();
 const settingsPath = path.join(__dirname, '../settings.json');
 
 /**
+ * Replaces [IMAGE_PLACEHOLDER: query] tags with real Unsplash image HTML.
+ */
+async function resolveImagePlaceholders(htmlContent) {
+  const placeholderRegex = /\[IMAGE_PLACEHOLDER:\s*(.*?)\]/g;
+  let result = htmlContent;
+  let match;
+
+  // Collect all matches first so regex index stays stable
+  const matches = [];
+  while ((match = placeholderRegex.exec(htmlContent)) !== null) {
+    matches.push({ full: match[0], query: match[1] });
+  }
+
+  for (const { full, query } of matches) {
+    console.log(`Fetching Unsplash image for placeholder: "${query}"...`);
+    const unsplashData = await fetchUnsplashImage(query);
+
+    const imgHtml = unsplashData
+      ? `<figure class="wp-block-image size-large">
+           <img src="${unsplashData.url}" alt="${unsplashData.alt}">
+           <figcaption>Photo by ${unsplashData.author} on Unsplash</figcaption>
+         </figure>`
+      : '';
+
+    result = result.replace(full, imgHtml);
+  }
+
+  return result;
+}
+
+/**
  * Main function to run the auto-posting workflow.
  */
 async function runAutoPoster() {
-  console.log('--- Starting WordPress Auto-Poster Workflow (Google Sheets + SEO Expert) ---');
+  console.log('--- Starting WordPress Auto-Poster Workflow ---');
   const startTime = new Date();
 
   try {
+    // Read workflow settings
+    let settings = { workflows: { wordpress: true, pinterest: false, blogger: true } };
+    try {
+      if (fs.existsSync(settingsPath)) {
+        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+      }
+    } catch (err) {
+      console.warn('Failed to read settings.json. Using defaults.');
+    }
+
     // 1. Get the next pending topic from Google Sheets
     const topicData = await getNextPendingTopic();
-
     if (!topicData) {
       console.log('No pending topics found in Google Sheets. Workflow cancelled.');
       return;
@@ -31,140 +71,134 @@ async function runAutoPoster() {
     console.log(`Topic selected: "${topic}"`);
     const focusKeyword = keywords.length > 0 ? keywords[0] : topic;
 
-    // 2. Generate content with OpenAI (SEO Optimized)
-    console.log('Generating SEO-optimized content with OpenAI...');
-    const article = await generateArticle(topic, keywords, internalLinks);
-    console.log(`Article generated: "${article.title}"`);
+    // ─────────────────────────────────────────────────────────
+    // 2. Generate the WordPress article (full SEO + FAQ schema)
+    // ─────────────────────────────────────────────────────────
+    console.log('Generating WordPress SEO article with OpenAI...');
+    const wpArticle = await generateWordPressArticle(topic, keywords, internalLinks);
+    console.log(`WP Article generated: "${wpArticle.title}"`);
 
-    // 2.5 Replace Unsplash image placeholders in the content
-    const placeholderRegex = /\[IMAGE_PLACEHOLDER:\s*(.*?)\]/g;
-    let match;
-    while ((match = placeholderRegex.exec(article.content)) !== null) {
-      const query = match[1];
-      console.log(`Fetching Unsplash image for placeholder: "${query}"...`);
-      const unsplashData = await fetchUnsplashImage(query);
-      
-      let imgHtml = '';
-      if (unsplashData) {
-        imgHtml = `
-          <figure class="wp-block-image size-large">
-            <img src="${unsplashData.url}" alt="${unsplashData.alt}">
-            <figcaption>Photo by ${unsplashData.author} on Unsplash</figcaption>
-          </figure>
-        `;
-      } else {
-        console.warn(`Could not fetch Unsplash image for: "${query}"`);
-      }
-      
-      // Replace only this exact match instance per iteration
-      article.content = article.content.replace(match[0], imgHtml);
-    }
+    // Resolve Unsplash image placeholders inside WP article
+    wpArticle.content = await resolveImagePlaceholders(wpArticle.content);
 
-    // Read settings from settings.json
-    let settings = { workflows: { wordpress: true, pinterest: true, blogger: true } };
-    try {
-      if (fs.existsSync(settingsPath)) {
-        settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-      }
-    } catch (err) {
-      console.warn('Failed to read settings.json. Defaulting to true for all.');
-    }
+    // Build structured alt text: "{keyword} Morocco {descriptor}"
+    const altDescriptor = wpArticle.altDescriptor || wpArticle.imageSearchTerm || 'travel scene';
+    const structuredAltText = `${focusKeyword} Morocco ${altDescriptor}`;
 
-    // 3. Fetch image from Pexels (Only if WordPress or Pinterest needs it)
+    // ─────────────────────────────────────────────────────────
+    // 3. Fetch featured image from Pexels (hero image for both WP and Pinterest)
+    // ─────────────────────────────────────────────────────────
     let featuredMediaId = null;
     let featuredImageUrl = null;
-    
+
     if (settings.workflows.wordpress || settings.workflows.pinterest) {
-      if (article.imageSearchTerm) {
-        console.log(`Fetching stock image for: "${article.imageSearchTerm}"...`);
-        const imageUrl = await fetchStockImage(article.imageSearchTerm);
-        
+      if (wpArticle.imageSearchTerm) {
+        console.log(`Fetching stock image for: "${wpArticle.imageSearchTerm}"...`);
+        const imageUrl = await fetchStockImage(wpArticle.imageSearchTerm);
+
         if (imageUrl) {
           featuredImageUrl = imageUrl;
-          
+
           if (settings.workflows.wordpress) {
-            console.log(`Image found: ${imageUrl}. Uploading to WordPress with alt text...`);
+            console.log(`Image found. Uploading to WordPress...`);
             featuredMediaId = await uploadMedia(
-              imageUrl, 
-              `${article.slug}.jpg`, 
-              article.altText
+              imageUrl,
+              `${wpArticle.slug}.jpg`,
+              structuredAltText,
+              wpArticle.title // Image title = article title
             );
           }
         } else {
-          console.warn('No image found for search term.');
+          console.warn('No featured image found.');
         }
       }
     }
 
+    // ─────────────────────────────────────────────────────────
+    // 4. Publish to WordPress
+    // ─────────────────────────────────────────────────────────
     let wpPostLink = '';
 
-    // 4. Create post in WordPress with SEO metadata
     if (settings.workflows.wordpress) {
-      console.log('Publishing story to WordPress with SEO metadata...');
+      console.log('Publishing story to WordPress...');
       const post = await createPost({
-        title: article.title,
-        subtitle: article.subtitle,
-        authorName: article.authorName,
-        readingTime: article.readingTime,
-        content: article.content,
-        featuredMediaId: featuredMediaId,
-        metaDescription: article.metaDescription,
-        focusKeyword: focusKeyword,             // <-- Rank Math focus keyword
-        slug: article.slug,
+        title:          wpArticle.title,
+        subtitle:       wpArticle.subtitle,
+        authorName:     wpArticle.authorName,
+        readingTime:    wpArticle.readingTime,
+        content:        wpArticle.content,
+        faqSchema:      wpArticle.faqSchema,
+        featuredMediaId,
+        metaDescription: wpArticle.metaDescription,
+        focusKeyword,
+        slug:           wpArticle.slug,
       });
 
       wpPostLink = post.link;
       console.log(`Post published successfully! URL: ${wpPostLink}`);
 
       // 5. Update Google Sheets
-      console.log(`Updating Google Sheet...`);
+      console.log('Updating Google Sheet...');
       await markAsPublished(_row, wpPostLink);
     } else {
       console.log('Skipping WordPress publishing (disabled in settings.json).');
     }
 
+    // ─────────────────────────────────────────────────────────
     // 6. Share on Pinterest
+    // ─────────────────────────────────────────────────────────
     if (settings.workflows.pinterest) {
       if (featuredImageUrl && wpPostLink) {
-        console.log('Sharing article on Pinterest...');
+        console.log('Sharing on Pinterest...');
         await createPin({
-          title: article.title,
-          description: article.metaDescription, // Using meta description for Pinterest
-          link: wpPostLink,
-          imageUrl: featuredImageUrl
+          title:       wpArticle.title,
+          description: wpArticle.metaDescription,
+          link:        wpPostLink,
+          imageUrl:    featuredImageUrl,
         });
       } else {
-        console.log('Skipping Pinterest share because no image or WP Link is available.');
+        console.log('Skipping Pinterest: no image or WP link available.');
       }
     } else {
-      console.log('Skipping Pinterest share (disabled in settings.json).');
+      console.log('Skipping Pinterest (disabled in settings.json).');
     }
 
-    // 7. Publish to Blogger sites
+    // ─────────────────────────────────────────────────────────
+    // 7. Publish unique rewritten versions to each Blogger site
+    // ─────────────────────────────────────────────────────────
     if (settings.workflows.blogger) {
       const bloggerIdsRaw = process.env.BLOGGER_IDS;
       if (bloggerIdsRaw) {
         const blogIds = bloggerIdsRaw.split(',').map(id => id.trim()).filter(id => id);
-        if (blogIds.length > 0) {
-          console.log(`Publishing article to ${blogIds.length} Blogger website(s)...`);
-          
-          let contentForBlogger = article.content;
-          
+
+        for (let i = 0; i < blogIds.length; i++) {
+          const blogId = blogIds[i];
+          const blogIndex = i + 1;
+
+          console.log(`Generating unique Blogger article version ${blogIndex} for blog ${blogId}...`);
+          const bloggerArticle = await generateBloggerArticle(topic, keywords, blogIndex);
+
+          // Resolve Unsplash placeholders in this version too
+          let bloggerContent = await resolveImagePlaceholders(bloggerArticle.content);
+
+          // Add canonical backlink to WP if available
           if (wpPostLink) {
-            contentForBlogger += `
+            bloggerContent += `
               <hr/>
               <p>Read the full original article here: <a href="${wpPostLink}">${wpPostLink}</a></p>
             `;
           }
-          
-          await publishToMultipleBloggers(blogIds, article.title, contentForBlogger);
+
+          await publishToMultipleBloggers([blogId], bloggerArticle.title, bloggerContent);
         }
       }
     } else {
       console.log('Skipping Blogger publishing (disabled in settings.json).');
     }
+
   } catch (error) {
     console.error('Workflow failed:', error.message);
+    console.error(error.stack);
   }
 
   const endTime = new Date();
@@ -172,8 +206,8 @@ async function runAutoPoster() {
   console.log(`--- Workflow Finished in ${duration}s ---`);
 }
 
-// 5. Schedule the daily task
-const schedule = process.env.CRON_SCHEDULE || '0 9 * * *'; // Default to 9:00 AM daily
+// Schedule the daily task
+const schedule = process.env.CRON_SCHEDULE || '0 9 * * *';
 console.log(`Scheduling auto-poster with cron: "${schedule}"`);
 
 cron.schedule(schedule, () => {
@@ -181,10 +215,10 @@ cron.schedule(schedule, () => {
   runAutoPoster();
 }, {
   scheduled: true,
-  timezone: "Africa/Casablanca"
+  timezone: 'Africa/Casablanca',
 });
 
-// For testing purposes: Option to run once immediately if an argument is passed
+// Manual trigger
 if (process.argv.includes('--now')) {
   console.log('Manual trigger detected. Running once now...');
   runAutoPoster();
