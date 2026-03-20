@@ -3,6 +3,7 @@
     "wordpress": true,
     "pinterest": false,
     "blogger": true,
-    "instagram_engage": true
+    "instagram_engage": true,
+    "instagram_poster": true
   }
 }

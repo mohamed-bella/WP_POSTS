@@ -1,4 +1,5 @@
 const { runInstagramStealth } = require('./services/instagram-stealth');
+const { runInstagramPoster } = require('./services/instagram-poster');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -107,6 +108,50 @@ async function startScheduler() {
   }
 }
 
+// ─── Poster scheduler: 2 posts per day ─────────────────────────
+async function startPosterScheduler() {
+  console.log('--- Starting Instagram Auto-Poster ---');
+  while (true) {
+    let settings = { workflows: { instagram_poster: false } };
+    try {
+      settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    } catch(e) {}
+
+    if (!settings.workflows?.instagram_poster) {
+      console.log('[Poster] Disabled in settings.json. Sleeping 1h...');
+      await sleep(60 * 60 * 1000);
+      continue;
+    }
+
+    const schedule = generateDailySchedule(2, 9, 20);
+    if (schedule.length === 0) {
+      const midnight = new Date(); midnight.setHours(24,0,0,0);
+      await sleep(midnight - new Date() + 10000);
+      continue;
+    }
+
+    console.log('[Poster] 📅 Post schedule for today:');
+    schedule.forEach((t, i) => console.log(`   Post ${i+1}: ${formatTime(t)}`));
+
+    for (const targetTime of schedule) {
+      const msToWait = targetTime - new Date();
+      if (msToWait > 0) {
+        console.log(`[Poster] ⏳ Next post at ${formatTime(targetTime)}...`);
+        await sleep(msToWait);
+      }
+      console.log('[Poster] 🚀 Posting to Instagram now...');
+      try {
+        await runInstagramPoster();
+      } catch(err) {
+        console.error('[Poster] ❌', err.message);
+      }
+    }
+
+    const midnight = new Date(); midnight.setHours(24,0,0,0);
+    await sleep(midnight - new Date() + 10000);
+  }
+}
+
 // Start immediately if executed directly
 if (require.main === module) {
   if (process.argv.includes('--now')) {
@@ -118,8 +163,21 @@ if (require.main === module) {
       console.error(err);
       process.exit(1);
     });
+  } else if (process.argv.includes('--post-now')) {
+    console.log('Manual trigger: posting a photo to Instagram NOW...');
+    runInstagramPoster().then(() => {
+      console.log('Manual post done.');
+      process.exit(0);
+    }).catch(err => {
+      console.error(err);
+      process.exit(1);
+    });
   } else {
-    startScheduler();
+    // Run both the engagement scheduler and the poster scheduler in parallel
+    Promise.all([
+      startScheduler(),
+      startPosterScheduler()
+    ]);
   }
 }
 
