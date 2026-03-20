@@ -72,6 +72,18 @@ async function publishToMultipleBloggers(blogIds, title, content) {
   return publishedUrls;
 }
 
-module.exports = {
-  publishToMultipleBloggers,
-};
+module.exports = { publishToMultipleBloggers, createBloggerPost, sendWhatsAppUpdate };
+
+// Manual test block
+if (require.main === module && process.argv.includes('--test')) {
+    (async () => {
+        console.log('🧪 Testing Blogger Publishing & Indexing...');
+        const testContent = 'This is a test post from the automation suite at ' + new Date().toISOString();
+        const url = await createBloggerPost(
+            process.env.BLOGGER_BLOG_ID_WP_POSTS, 
+            'Automation Test Post', 
+            testContent
+        );
+        console.log('✅ Test post live at:', url);
+    })();
+}

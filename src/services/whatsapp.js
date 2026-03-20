@@ -13,6 +13,7 @@ require('dotenv').config();
 let sock;
 let isConnected = false;
 let isConnecting = false;
+let lastStartedMsgTime = 0;
 
 /**
  * Initialize WhatsApp connection
@@ -20,6 +21,15 @@ let isConnecting = false;
 async function connectToWhatsApp() {
     if (isConnected || isConnecting) return;
     isConnecting = true;
+
+    // Clean up existing socket if any
+    if (sock) {
+        try {
+            sock.ev.removeAllListeners('connection.update');
+            sock.ev.removeAllListeners('creds.update');
+            sock.terminate();
+        } catch (e) {}
+    }
 
     const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
     const { version } = await fetchLatestBaileysVersion();
@@ -42,8 +52,9 @@ async function connectToWhatsApp() {
                 console.log('👉 Enter this code in WhatsApp (Linked Devices -> Link with phone number)\n');
             } catch (err) {
                 console.error('❌ Failed to request pairing code:', err.message);
-                // Retry in 10s if it failed due to connection
-                setTimeout(requestPairing, 10000);
+                if (err.message.includes('Connection Closed')) {
+                    setTimeout(requestPairing, 15000);
+                }
             }
         }
     };
@@ -63,25 +74,32 @@ async function connectToWhatsApp() {
 
         if (connection === 'close') {
             const statusCode = lastDisconnect?.error?.output?.statusCode;
-            const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
+            const shouldReconnect = statusCode !== DisconnectReason.loggedOut && statusCode !== 440;
             
-            console.log(`🔌 WhatsApp connection closed (${statusCode}). Reconnecting: ${shouldReconnect}`);
+            if (statusCode === 440) {
+                console.error('⚠️ WhatsApp Conflict (440): Another instance of this bot is already running. This instance will NOT send notifications.');
+            } else {
+                console.log(`🔌 WhatsApp connection closed (${statusCode}). Reconnecting: ${shouldReconnect}`);
+            }
+
             isConnected = false;
             isConnecting = false;
 
-            if (statusCode === 401) {
-                console.error('❌ WhatsApp Session Invalid (401).');
-            }
-
             if (shouldReconnect) {
-                // Add a delay to prevent 440 Conflict loops
-                setTimeout(connectToWhatsApp, 5000);
+                const delay = 10000;
+                setTimeout(connectToWhatsApp, delay);
             }
         } else if (connection === 'open') {
             console.log('✅ WhatsApp connection opened!');
             isConnected = true;
             isConnecting = false;
-            sendWhatsAppUpdate('🚀 *Automation Bot Started!* I will send updates here.');
+
+            // Debounce the startup message (once every 30 minutes max)
+            const now = Date.now();
+            if (now - lastStartedMsgTime > 1800000) {
+                lastStartedMsgTime = now;
+                sendWhatsAppUpdate('🚀 *Automation Bot Started!* I will send updates here.');
+            }
         }
     });
 
