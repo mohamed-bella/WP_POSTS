@@ -58,7 +58,7 @@ CONTENT STRUCTURE:
 ---
 
 LENGTH & FORMAT:
-- Minimum 1,400 words, maximum 1,800 words
+- Minimum 6,400 words, maximum 10,800 words
 - Full HTML output — use proper heading tags, <p>, <ul>, <li>, <strong>
 - No inline CSS or style attributes
 

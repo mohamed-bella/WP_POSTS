@@ -5,6 +5,7 @@ const { uploadMedia, createPost } = require('./services/wordpress');
 const { getNextPendingTopic, markAsPublished } = require('./services/google-sheets');
 const { createPin } = require('./services/pinterest');
 const { publishToMultipleBloggers } = require('./services/blogger');
+const { runIndexingPipeline } = require('./services/indexing');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -48,6 +49,7 @@ async function resolveImagePlaceholders(htmlContent) {
 async function runAutoPoster() {
   console.log('--- Starting WordPress Auto-Poster Workflow ---');
   const startTime = new Date();
+  const publishedUrls = []; // Collect all published URLs for IndexNow
 
   try {
     // Read workflow settings
@@ -135,6 +137,7 @@ async function runAutoPoster() {
       });
 
       wpPostLink = post.link;
+      publishedUrls.push(wpPostLink);
       console.log(`Post published successfully! URL: ${wpPostLink}`);
 
       // 5. Update Google Sheets
@@ -189,12 +192,18 @@ async function runAutoPoster() {
             `;
           }
 
-          await publishToMultipleBloggers([blogId], bloggerArticle.title, bloggerContent);
+          const blogUrls = await publishToMultipleBloggers([blogId], bloggerArticle.title, bloggerContent);
+          publishedUrls.push(...blogUrls);
         }
       }
     } else {
       console.log('Skipping Blogger publishing (disabled in settings.json).');
     }
+
+    // ─────────────────────────────────────────────────────────
+    // 8. SEO Indexing Pipeline
+    // ─────────────────────────────────────────────────────────
+    await runIndexingPipeline(wpPostLink, publishedUrls);
 
   } catch (error) {
     console.error('Workflow failed:', error.message);
