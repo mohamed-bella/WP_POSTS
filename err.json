@@ -1,0 +1,5 @@
+{
+  "name": "IgResponseError",
+  "message": "GET /api/v1/zr/token/result/?device_id=android-4e3010c827de9744&token_hash=&custom_device_id=86f08ae2-26c9-5781-8f76-ca2dbab61688&fetch_reason=token_expired - 400 Bad Request; checkpoint_required",
+  "stack": "IgResponseError: GET /api/v1/zr/token/result/?device_id=android-4e3010c827de9744&token_hash=&custom_device_id=86f08ae2-26c9-5781-8f76-ca2dbab61688&fetch_reason=token_expired - 400 Bad Request; checkpoint_required\n    at Request.handleResponseError (C:\\Users\\Windows\\Desktop\\PROJECTS\\AUTOMATIONS\\WP_POSTS\\node_modules\\instagram-private-api\\dist\\core\\request.js:126:16)\n    at Request.send (C:\\Users\\Windows\\Desktop\\PROJECTS\\AUTOMATIONS\\WP_POSTS\\node_modules\\instagram-private-api\\dist\\core\\request.js:54:28)"
+}

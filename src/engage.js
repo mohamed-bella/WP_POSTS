@@ -1,4 +1,4 @@
-const { runInstagramEngagement } = require('./services/instagram-engage');
+const { runInstagramStealth } = require('./services/instagram-stealth');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -89,7 +89,7 @@ async function startScheduler() {
 
       console.log(`\n🚀 It's time! Initiating engagement run...`);
       try {
-        await runInstagramEngagement();
+        await runInstagramStealth();
       } catch (err) {
         console.error('Engagement failed:', err.message);
         console.error('Will retry on the next scheduled run.');
@@ -109,7 +109,18 @@ async function startScheduler() {
 
 // Start immediately if executed directly
 if (require.main === module) {
-  startScheduler();
+  if (process.argv.includes('--now')) {
+    console.log('Manual trigger detected. Running stealth engagement ONCE now...');
+    runInstagramStealth().then(() => {
+      console.log('Manual run finished.');
+      process.exit(0);
+    }).catch(err => {
+      console.error(err);
+      process.exit(1);
+    });
+  } else {
+    startScheduler();
+  }
 }
 
 module.exports = { startScheduler };
