@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MTE Bot Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="loading-state">
+  <!-- Loading Splash Screen -->
+  <div id="splash-screen" style="position:fixed; inset:0; background:#F8FAFC; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;">
+    <div class="logo-icon" style="width:60px; height:60px; border-radius:12px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:20px; font-weight:800; color:#0F172A; margin-bottom:5px;">MTE Automation</div>
+      <div id="splash-status" style="font-size:12px; font-weight:600; color:#64748B; text-transform:uppercase; letter-spacing:1px;">Connecting to Supabase...</div>
+    </div>
+    <div class="spinner" style="width:24px; height:24px; margin:0;"></div>
+  </div>
+
+<div id="app">
+  
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="modal-overlay" style="display:none; position: fixed; inset: 0; z-index: 10000; justify-content: center; align-items: center; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px);">
+    <div class="card" style="width: 100%; max-width: 400px; padding: 30px;">
+      <h2 class="card-title text-center mb-3">MTE Bot Login</h2>
+      <div class="form-group">
+        <label>Admin Password</label>
+        <input type="password" id="login-password" class="clean-input block w-full" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label>Security Captcha</label>
+        <div class="flex gap-10 align-center mb-1 bg-white p-1 rounded" style="border:1px solid #ddd">
+          <div id="captcha-img-wrap" style="flex-grow: 1; display:flex; justify-content:center; overflow:hidden"></div>
+          <button class="pill-btn outline btn-sm" id="btn-refresh-captcha" style="min-width:40px">↻</button>
+        </div>
+        <input type="text" id="login-captcha" class="clean-input block w-full" placeholder="Type the characters above">
+      </div>
+      <button class="pill-btn primary w-full mt-3 flex justify-center" id="btn-login-submit" style="height: 44px;">Login to Dashboard</button>
+      <div id="login-error" class="text-sm color-error mt-2 text-center" style="display:none"></div>
+    </div>
+  </div>
+  
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="logo-area">
+      <div class="logo-icon">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+      </div>
+      <div class="logo-text">MTE<span>Bot</span></div>
+    </div>
+
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      <input type="text" placeholder="Search...">
+    </div>
+
+    <nav id="nav">
+      <a data-page="overview" class="nav-item active">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a data-page="sheets" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 2v6m0-10V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-3a2 2 0 012-2h3"/></svg>
+        <span>Spreadsheets</span>
+      </a>
+      <a data-page="stories" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v12a2 2 0 01-2 2z"/><path d="M7 8h5M7 12h8M7 16h8"/></svg>
+        <span>Live Stories</span>
+      </a>
+      <a href="/seo" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        <span>SEO Performance</span>
+      </a>
+      <a data-page="actions" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Actions</span>
+      </a>
+      <a data-page="logs" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M4 18h7"/></svg>
+        <span>Live Logs</span>
+      </a>
+
+      <div class="nav-section">SEO</div>
+      <a data-page="gsc" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <span>Search Console</span>
+      </a>
+      <a data-page="links" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+        <span>Internal Links</span>
+      </a>
+      
+      <div class="nav-section">CONFIG</div>
+      <a data-page="settings" class="nav-item">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0..."/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="avatar">A</div>
+        <div class="user-info">
+          <div class="name">Admin User</div>
+          <div class="role badge-amber">Admin</div>
+        </div>
+      </div>
+      <button class="logout-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main id="main">
+    <header id="topbar">
+      <div class="header-left">
+        <button id="mobile-menu-btn">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <h1 class="page-title" id="topbar-title">Dashboard</h1>
+      </div>
+      <div class="header-right">
+        <span class="status-indicator">
+          <span class="status-dot green" id="status-dot"></span>
+          <span class="uptime" id="uptime-label">Loading...</span>
+        </span>
+      </div>
+    </header>
+
+    <div id="content">
+
+      <!-- ============================================== -->
+      <!-- OVERVIEW PAGE -->
+      <!-- ============================================== -->
+      <div class="page active" id="page-overview">
+        
+        <!-- Top Metrics Row -->
+        <div class="metrics-grid mb-gutter">
+          <div class="metric-card">
+            <div class="mc-title">WP Posts Today</div>
+            <div class="mc-value">
+              <span id="s-wp">—</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="mc-title">IG Engagements</div>
+            <div class="mc-value">
+              <span id="s-ig">—</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="mc-title">Errors Today</div>
+            <div class="mc-value">
+              <span id="s-err">—</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="mc-title">Total Actions</div>
+            <div class="mc-value">
+              <span id="s-total">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Grid -->
+        <div class="dashboard-grid">
+          
+          <!-- Recent Actions (Mimicking "Customers" List) -->
+          <div class="card col-span-2">
+            <div class="card-header border-bottom">
+               <h2 class="card-title">Recent Actions</h2>
+               <button class="btn btn-sm btn-ghost" data-page="actions">View All</button>
+            </div>
+            <div class="list-container" id="recent-actions-list">
+               <div class="empty">Loading...</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions (Mimicking "New Deals" Buttons) -->
+          <div class="card">
+            <div class="card-header border-bottom">
+               <h2 class="card-title">Quick Automations</h2>
+            </div>
+            <div class="pill-buttons-grid">
+               <button class="pill-btn primary" id="btn-run-wp"><span class="icon">+</span> WordPress</button>
+               <button class="pill-btn highlight" id="btn-run-full"><span class="icon">⚡</span> Run Full Suite</button>
+               <button class="pill-btn" id="btn-run-ig-engage">IG Engage</button>
+               <button class="pill-btn" id="btn-run-ig-post">IG Post</button>
+               <button class="pill-btn" id="btn-run-blogger">Blogger</button>
+               <button class="pill-btn" id="btn-run-reddit">Reddit</button>
+               <button class="pill-btn" id="btn-run-linkedin">LinkedIn</button>
+               <button class="pill-btn" id="btn-run-tumblr">Tumblr</button>
+               <button class="pill-btn" id="btn-run-twitter">Twitter</button>
+               <button class="pill-btn" id="btn-test-wa">WhatsApp Test</button>
+            </div>
+            <div id="run-msg" class="text-sm mt-3 color-gray"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPREADSHEETS PAGE (Topics Drafts) -->
+      <div class="page" id="page-sheets">
+        
+        <!-- Metric Overview -->
+        <div class="metrics-grid mb-gutter">
+           <div class="metric-card bg-blue-soft border-blue">
+              <div class="mc-title color-blue">Pending Drafts</div>
+              <div class="mc-value" id="sheet-pending-met">0</div>
+           </div>
+           <div class="metric-card bg-green-soft border-green">
+              <div class="mc-title color-green">Live History</div>
+              <div class="mc-value" id="sheet-published-met">0</div>
+           </div>
+           <div class="metric-card bg-gray-soft">
+              <div class="mc-title">Avg SEO Score</div>
+              <div class="mc-value" id="sheet-score-met">0%</div>
+           </div>
+        </div>
+
+        <div class="card mb-gutter shadow-sm overflow-hidden" style="border:none">
+           <div class="tab-nav bg-gray-50 border-bottom px-4">
+              <button class="tab-btn active" onclick="switchSheetTab('drafts', this)">
+                 <span class="emoji">📝</span> Drafts & Ideas
+              </button>
+              <button class="tab-btn" onclick="switchSheetTab('published', this)">
+                 <span class="emoji">✅</span> Published Control
+              </button>
+              <div class="ml-auto flex gap-10 align-center">
+                 <button class="pill-btn primary small" onclick="document.getElementById('row-creator').classList.toggle('hidden')">
+                   <span class="emoji">➕</span> New Idea
+                 </button>
+                 <button class="pill-btn outline small" id="btn-refresh-sheet" style="background:#fff">
+                    <span class="emoji">🔄</span> Sync
+                 </button>
+              </div>
+           </div>
+
+           <!-- Row Creator (Collapsible) -->
+           <div id="row-creator" class="add-topic-container border-bottom hidden" style="padding:20px; background:#F8FAFC">
+             <div class="flex gap-15 align-end w-full">
+                <div class="form-group flex-1">
+                   <label class="text-xs font-bold uppercase color-gray-500 mb-1">Topic Name</label>
+                   <input type="text" id="in-topic" class="clean-input" placeholder="e.g. Best riads in Fes">
+                </div>
+                <div class="form-group flex-1">
+                   <label class="text-xs font-bold uppercase color-gray-500 mb-1">Keywords</label>
+                   <input type="text" id="in-keywords" class="clean-input" placeholder="marrakech, riad, travel">
+                </div>
+                <div class="form-group" style="width:120px">
+                   <label class="text-xs font-bold uppercase color-gray-500 mb-1">Initial Status</label>
+                   <select id="in-status" class="clean-select w-full">
+                      <option value="pending">Pending</option>
+                      <option value="skip">Skip</option>
+                   </select>
+                </div>
+                <button class="pill-btn dark" id="btn-add-topic" style="height:40px; border-radius:8px">Submit Topic</button>
+             </div>
+           </div>
+
+           <!-- Drafts Tab Content -->
+           <div id="tab-drafts" class="sheet-tab-content active px-4 py-2">
+              <div class="flex align-center justify-between mb-2">
+                 <h3 class="text-sm font-bold color-slate-700">Content Planning Queue</h3>
+                 <div class="search-input-wrapper" style="width:250px">
+                    <input type="text" id="sheet-search" placeholder="Search topics...">
+                 </div>
+              </div>
+              <div class="table-wrapper no-border" id="sheet-table-wrap">
+                 <div class="empty">Loading planning queue...</div>
+              </div>
+           </div>
+
+           <!-- Published Tab Content -->
+           <div id="tab-published" class="sheet-tab-content px-4 py-2" style="display:none">
+              <div class="flex align-center justify-between mb-2">
+                 <h3 class="text-sm font-bold color-slate-700">Published History & Performance</h3>
+                 <div class="search-input-wrapper" style="width:250px">
+                    <input type="text" id="published-search" placeholder="Search live urls...">
+                 </div>
+              </div>
+              <div class="table-wrapper no-border" id="published-table-wrap">
+                 <div class="empty">Click "Sync" to load history.</div>
+              </div>
+           </div>
+
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- LIVE STORIES PAGE (Published Content) -->
+      <!-- ============================================== -->
+      <div class="page" id="page-stories">
+        <div class="card mb-gutter bg-gradient-brand">
+           <h2 class="card-title text-white">Live Content Performance</h2>
+           <p class="text-sm text-white-opacity mt-1">Track your published stories and their SEO optimization scores.</p>
+        </div>
+
+        <div class="card seamless-card">
+           <div class="card-header list-header">
+              <h2 class="card-title">Published Stories <span class="count-badge" id="stories-count"></span></h2>
+              <div class="flex gap-10">
+                 <div class="search-input-wrapper">
+                    <input type="text" id="stories-search" placeholder="Search stories...">
+                 </div>
+              </div>
+           </div>
+           <div class="table-wrapper" id="stories-table-wrap">
+              <div class="empty">Loading...</div>
+           </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- ACTIONS PAGE -->
+      <!-- ============================================== -->
+      <div class="page" id="page-actions">
+        <div class="card seamless-card">
+           <div class="card-header list-header">
+              <h2 class="card-title">Action History</h2>
+              <div class="flex gap-10 filters-row">
+                 <select id="filter-type" class="clean-select">
+                    <option value="">All Types</option>
+                    <option value="wordpress_post">WordPress</option>
+                    <option value="blogger_post">Blogger</option>
+                    <option value="instagram_engage">IG Engage</option>
+                    <option value="instagram_post">IG Post</option>
+                    <option value="whatsapp_message">WhatsApp</option>
+                    <option value="seo_indexing">SEO</option>
+                 </select>
+                 <select id="filter-status" class="clean-select">
+                    <option value="">All Status</option>
+                    <option value="success">Success</option>
+                    <option value="error">Error</option>
+                    <option value="running">Running</option>
+                 </select>
+                 <button class="pill-btn outline" id="btn-refresh-actions">Refresh</button>
+              </div>
+           </div>
+           <div class="table-wrapper" id="actions-table-wrap">
+              <div class="empty">Loading...</div>
+           </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- LIVE LOGS PAGE -->
+      <!-- ============================================== -->
+      <div class="page" id="page-logs">
+        <div class="card seamless-card">
+           <div class="card-header list-header">
+              <h2 class="card-title">Live Server Logs</h2>
+              <div class="flex gap-10 align-center">
+                 <span id="log-status" class="badge badge-gray">Connecting...</span>
+                 <label class="checkbox-label"><input type="checkbox" id="log-autoscroll" checked> Auto-scroll</label>
+                 <button class="pill-btn outline btn-sm" id="btn-clear-logs">Clear</button>
+              </div>
+           </div>
+           <div class="terminal-view" id="log-container"></div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SEARCH CONSOLE -->
+      <!-- ============================================== -->
+      <div class="page" id="page-gsc">
+        <div class="card mb-gutter">
+           <div class="card-header border-bottom">
+              <h2 class="card-title">Search Console Overview</h2>
+              <button class="pill-btn primary" id="btn-gsc-refresh">Pull Fresh Data</button>
+           </div>
+           <p class="text-sm color-gray mt-2" id="gsc-meta"></p>
+           
+           <div class="metrics-grid small mt-3" id="gsc-stats">
+              <!-- Filled via JS -->
+           </div>
+        </div>
+
+        <div class="card primary-card mb-gutter">
+           <div class="card-header">
+              <h2 class="card-title text-primary">Live Index Inspector</h2>
+           </div>
+           <p class="text-sm color-gray mt-1 mb-3">Check exactly how Google sees a specific page, and force-index it if missing.</p>
+           <div class="flex gap-10">
+              <input type="text" id="in-inspect-url" placeholder="https://moroccotravelexperts.com/..." class="flex-grow clean-input">
+              <button class="pill-btn purple" id="btn-inspect-url">Inspect URL</button>
+              <button class="pill-btn dark" id="btn-force-index">Force Index</button>
+           </div>
+           
+           <div id="inspect-result-wrap" class="inspection-result">
+              <div class="flex justify-between align-center">
+                 <div>
+                    <h3 id="insp-status" class="status-heading">Status</h3>
+                    <p class="text-sm color-gray" id="insp-coverage">Coverage reason</p>
+                 </div>
+                 <div class="text-right">
+                    <p class="text-sm color-gray">Last Crawl</p>
+                    <p class="text-bold" id="insp-crawl">-</p>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <div class="dashboard-grid">
+           <div class="card seamless-card col-span-2">
+              <div class="card-header list-header">
+                 <h2 class="card-title">Top Pages</h2>
+              </div>
+              <div class="table-wrapper" id="gsc-table-wrap">
+                 <div class="empty">No data yet. Click Pull Fresh Data.</div>
+              </div>
+           </div>
+           <div class="card seamless-card">
+              <div class="card-header border-bottom">
+                 <h2 class="card-title">Declining Pages</h2>
+              </div>
+              <div class="table-wrapper" id="gsc-declining-wrap">
+                 <div class="empty">No data.</div>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- INTERNAL LINKS -->
+      <!-- ============================================== -->
+      <div class="page" id="page-links">
+        <div class="card mb-gutter">
+           <div class="card-header border-bottom">
+              <h2 class="card-title">Link Index</h2>
+              <div class="flex gap-10">
+                 <button class="pill-btn primary" id="btn-build-index">Build Index</button>
+                 <button class="pill-btn outline" id="btn-scan-posts">Scan Opportunities</button>
+              </div>
+           </div>
+           <p class="text-sm color-gray mt-3" id="link-index-info">Loading...</p>
+        </div>
+        
+        <div class="dashboard-grid">
+           <div class="card seamless-card">
+              <div class="card-header border-bottom"><h2 class="card-title">Indexed Posts</h2></div>
+              <div class="table-wrapper" id="link-index-posts"><div class="empty">Build the index first.</div></div>
+           </div>
+           <div class="card seamless-card col-span-2">
+              <div class="card-header border-bottom"><h2 class="card-title">Linking Opportunities</h2></div>
+              <div class="table-wrapper" id="link-opportunities"><div class="empty">Run Scan to see opportunities.</div></div>
+           </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SETTINGS -->
+      <!-- ============================================== -->
+      <div class="page" id="page-settings">
+        
+        <div class="flex space-between align-center mb-gutter">
+          <div>
+            <h2 class="page-title">SaaS Configuration Hub</h2>
+            <p class="text-xs color-gray">Select a category to manage credentials and system variables.</p>
+          </div>
+          <div class="flex gap-10">
+            <button class="pill-btn outline" id="btn-test-all-systems">🚀 Test All Systems</button>
+            <button class="pill-btn primary" id="btn-save-all-config">💾 Save All Changes</button>
+          </div>
+        </div>
+
+        <div class="setting-tiles-grid">
+          <div class="setting-tile" data-target="card-core"><div class="tile-icon">🔐</div><div class="tile-name">Core & Security</div><div class="tile-desc">Passwords & DB</div></div>
+          <div class="setting-tile" data-target="card-branding"><div class="tile-icon">🏷️</div><div class="tile-name">Branding</div><div class="tile-desc">White-Label Identity</div></div>
+          <div class="setting-tile" data-target="card-content"><div class="tile-icon">✍️</div><div class="tile-name">Content & AI</div><div class="tile-desc">OpenAI & Media</div></div>
+          <div class="setting-tile" data-target="card-wordpress"><div class="tile-icon">🌐</div><div class="tile-name">WordPress</div><div class="tile-desc">Rest API & Site</div></div>
+          <div class="setting-tile" data-target="card-seo"><div class="tile-icon">📈</div><div class="tile-name">SEO APIs</div><div class="tile-desc">PSI & Index</div></div>
+          <div class="setting-tile" data-target="card-ga4"><div class="tile-icon">📊</div><div class="tile-name">Analytics</div><div class="tile-desc">Google GA4</div></div>
+          <div class="setting-tile" data-target="card-whatsapp"><div class="tile-icon">📱</div><div class="tile-name">WhatsApp</div><div class="tile-desc">Bot status</div></div>
+          <div class="setting-tile" data-target="card-instagram"><div class="tile-icon">📸</div><div class="tile-name">Instagram</div><div class="tile-desc">Bot Login</div></div>
+          <div class="setting-tile" data-target="card-reddit"><div class="tile-icon">🧡</div><div class="tile-name">Reddit</div><div class="tile-desc">API Client</div></div>
+          <div class="setting-tile" data-target="card-blogger"><div class="tile-icon">📝</div><div class="tile-name">Blogger</div><div class="tile-desc">OAuth Details</div></div>
+          <div class="setting-tile" data-target="card-pinterest"><div class="tile-icon">📌</div><div class="tile-name">Pinterest</div><div class="tile-desc">Boards & Access</div></div>
+          <div class="setting-tile" data-target="card-tumblr"><div class="tile-icon">💠</div><div class="tile-name">Tumblr</div><div class="tile-desc">Blog Credentials</div></div>
+          <div class="setting-tile" data-target="card-twitter"><div class="tile-icon">🐦</div><div class="tile-name">Twitter / X</div><div class="tile-desc">X API Access</div></div>
+          <div class="setting-tile" data-target="card-linkedin"><div class="tile-icon">💼</div><div class="tile-name">LinkedIn</div><div class="tile-desc">B2B Networking</div></div>
+          <div class="setting-tile" data-target="card-automation"><div class="tile-icon">⚙️</div><div class="tile-name">Auto Toggles</div><div class="tile-desc">Active Workflows</div></div>
+        </div>
+
+        <div id="settings-cards-library" style="display:none">
+          <div class="card" id="card-core">
+            <div class="card-header"><h3>🔐 Core & Security</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Admin Password</label><input type="password" id="conf-DASHBOARD_PASSWORD" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Session Secret</label><input type="password" id="conf-SESSION_SECRET" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Cron Schedule</label><input type="text" id="conf-CRON_SCHEDULE" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Supabase URL</label><input type="text" id="conf-SUPABASE_URL" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Supabase Key</label><input type="password" id="conf-SUPABASE_ANON_KEY" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-branding">
+            <div class="card-header"><h3>🏷️ Branding</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Company Name</label><input type="text" id="conf-COMPANY_NAME" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Website URL</label><input type="text" id="conf-COMPANY_URL" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Default Author</label><input type="text" id="conf-DEFAULT_AUTHOR" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Target Niche</label><input type="text" id="conf-TARGET_NICHE" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-content">
+            <div class="card-header"><h3>✍️ AI & Media</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>OpenAI Key</label><input type="password" id="conf-OPENAI_API_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Pexels Key</label><input type="password" id="conf-PEXELS_API_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Unsplash Key</label><input type="password" id="conf-UNSPLASH_ACCESS_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Sheet ID</label><input type="text" id="conf-GOOGLE_SHEET_ID" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-wordpress">
+            <div class="card-header"><h3>🌐 WordPress</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Site URL</label><input type="text" id="conf-WP_URL" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Username</label><input type="text" id="conf-WP_USERNAME" class="clean-input block w-full"></div>
+              <div class="form-group"><label>App Password</label><input type="password" id="conf-WP_APPLICATION_PASSWORD" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-seo">
+            <div class="card-header"><h3>📈 SEO APIs</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>PSI Key</label><input type="password" id="conf-PAGESPEED_API_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>IndexNow Key</label><input type="text" id="conf-INDEXNOW_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Bing Key</label><input type="password" id="conf-BING_WEBMASTER_API_KEY" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-ga4">
+            <div class="card-header"><h3>📊 Analytics</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>GA4 Property ID</label><input type="text" id="conf-GA4_PROPERTY_ID" class="clean-input block w-full"></div>
+              <div class="form-group"><label>GA4 Email</label><input type="text" id="conf-GA4_CLIENT_EMAIL" class="clean-input block w-full"></div>
+              <div class="form-group"><label>GA4 Key</label><textarea id="conf-GA4_PRIVATE_KEY" class="clean-input block w-full" rows="6"></textarea></div>
+            </div>
+          </div>
+          <div class="card" id="card-whatsapp">
+            <div class="card-header"><h3>📱 WhatsApp Bot</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-15">
+              
+              <!-- Connection Section -->
+              <div id="wa-connection-section" class="border-bottom pb-3">
+                <div class="flex justify-between align-center mb-2">
+                  <span class="text-xs font-bold uppercase color-gray">Status</span>
+                  <span id="wa-status-badge-card" class="badge badge-gray">Checking...</span>
+                </div>
+                
+                <div id="wa-connected-msg" style="display:none" class="bg-green-soft p-3 rounded mb-3">
+                  <div class="flex align-center justify-between gap-10">
+                    <div class="flex align-center gap-10">
+                      <span class="text-xl">✅</span>
+                      <div>
+                        <div class="font-bold color-green">Bot Linked Successfully</div>
+                        <div class="text-xs color-green-dark">The bot is ready to send notifications.</div>
+                      </div>
+                    </div>
+                    <button class="pill-btn outline btn-sm" id="btn-wa-disconnect" style="background:#FEE2E2; color:#DC2626; border-color:#FECACA">Disconnect</button>
+                  </div>
+                </div>
+
+                <div id="wa-pairing-section" class="bg-gray-soft p-3 rounded">
+                  <p class="text-xs color-gray mb-3">To link your bot, enter your phone number with country code (e.g. 212708...) or scan a QR code.</p>
+                  <div class="flex gap-10 align-center mb-3">
+                    <input type="text" id="wa-phone-input" class="clean-input flex-grow" placeholder="212708...">
+                    <button class="pill-btn primary" id="btn-wa-link">Link with Code</button>
+                  </div>
+                  <div class="text-center">
+                    <button class="pill-btn outline small" id="btn-wa-qr">Or Scan QR Code Instead</button>
+                  </div>
+                  <div id="wa-qr-container" style="display:none" class="mt-4 text-center p-3 bg-white rounded border">
+                    <p class="text-xs font-bold color-gray mb-2">SCAN THIS QR CODE</p>
+                    <canvas id="wa-qr-canvas" class="mx-auto block"></canvas>
+                    <p class="text-xs color-gray mt-2">Open WhatsApp on your phone > Settings > Linked Devices > Link a Device</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Config Section (Only visible when connected) -->
+              <div id="wa-config-section" style="display:none">
+                <div class="form-group">
+                  <label class="text-xs font-bold uppercase color-gray mb-1 block">Alert Notification Number</label>
+                  <p class="text-xs color-gray mb-2">Logs and status updates will be sent to this number.</p>
+                  <input type="text" id="conf-WHATSAPP_NUMBER" class="clean-input block w-full" placeholder="212600000000">
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="card" id="card-instagram">
+            <div class="card-header"><h3>📸 Instagram</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Username</label><input type="text" id="conf-IG_USERNAME" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Password</label><input type="password" id="conf-IG_PASSWORD" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-tumblr">
+            <div class="card-header"><h3>💠 Tumblr</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Blog Name</label><input type="text" id="conf-TUMBLR_BLOG_NAME" class="clean-input block w-full" placeholder="my-awesome-blog"></div>
+              <div class="form-group"><label>Consumer Key</label><input type="password" id="conf-TUMBLR_CONSUMER_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Consumer Secret</label><input type="password" id="conf-TUMBLR_CONSUMER_SECRET" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Token</label><input type="password" id="conf-TUMBLR_TOKEN" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Token Secret</label><input type="password" id="conf-TUMBLR_TOKEN_SECRET" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-twitter">
+            <div class="card-header"><h3>🐦 Twitter / X</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>API Key</label><input type="password" id="conf-TWITTER_API_KEY" class="clean-input block w-full"></div>
+              <div class="form-group"><label>API Secret</label><input type="password" id="conf-TWITTER_API_SECRET" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Access Token</label><input type="password" id="conf-TWITTER_ACCESS_TOKEN" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Access Secret</label><input type="password" id="conf-TWITTER_ACCESS_SECRET" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-reddit">
+            <div class="card-header"><h3>🧡 Reddit</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Client ID</label><input type="text" id="conf-REDDIT_CLIENT_ID" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Username</label><input type="text" id="conf-REDDIT_USERNAME" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-blogger">
+            <div class="card-header"><h3>📝 Blogger</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Blog IDs</label><input type="text" id="conf-BLOGGER_IDS" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Client ID</label><input type="text" id="conf-BLOGGER_CLIENT_ID" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Refresh Token</label><textarea id="conf-BLOGGER_REFRESH_TOKEN" class="clean-input block w-full"></textarea></div>
+            </div>
+          </div>
+          <div class="card" id="card-pinterest">
+            <div class="card-header"><h3>📌 Pinterest</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Access Token</label><input type="password" id="conf-PINTEREST_ACCESS_TOKEN" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Board ID</label><input type="text" id="conf-PINTEREST_BOARD_ID" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-linkedin">
+            <div class="card-header"><h3>💼 LinkedIn</h3><button class="pill-btn primary small btn-save-card">Save</button></div>
+            <div class="p-3 flex-col gap-10">
+              <div class="form-group"><label>Email</label><input type="text" id="conf-LINKEDIN_EMAIL" class="clean-input block w-full"></div>
+              <div class="form-group"><label>Password</label><input type="password" id="conf-LINKEDIN_PASSWORD" class="clean-input block w-full"></div>
+            </div>
+          </div>
+          <div class="card" id="card-automation">
+            <div class="card-header"><h3>⚙️ Workflows</h3><button class="pill-btn primary small" id="btn-save-workflows-v2">Save Toggles</button></div>
+            <div id="settings-toggles-v2" class="p-3 flex-col gap-10"></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /content -->
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<!-- QR Code Generation for SaaS Settings -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<!-- AUTONOMOUS ROBOTICS MODAL -->
+<div id="fs-modal" class="modal-overlay" style="display:none; position: fixed; inset: 0; z-index: 10001; justify-content: center; align-items: center; background: rgba(5, 10, 15, 0.9); backdrop-filter: blur(12px);">
+  <div class="fs-card" style="width: 100%; max-width: 500px; background: #0b111a; border: 1px solid #14F1D9; border-radius: 12px; padding: 25px; box-shadow: 0 0 40px rgba(20, 241, 217, 0.15); font-family: 'Courier New', monospace; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, #14F1D9, transparent); animation: scanline 3s linear infinite;"></div>
+    
+    <style>
+      @keyframes scanline { 0% { transform: translateY(-300px); } 100% { transform: translateY(600px); } }
+      .fs-title { color: #14F1D9; font-weight: bold; font-size: 16px; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+      .fs-title span { display: inline-block; width: 10px; height: 10px; background: #14F1D9; box-shadow: 0 0 10px #14F1D9; border-radius: 50%; animation: pulse 1s infinite alternate; }
+      @keyframes pulse { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+      .fs-step { margin-bottom: 15px; }
+      .fs-step-header { display: flex; justify-content: space-between; font-size: 11px; color: #8892B0; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+      .fs-progress { height: 6px; background: #1E293B; border-radius: 3px; overflow: hidden; position: relative; }
+      .fs-bar { height: 100%; width: 0%; transition: width 0.4s ease, background 0.4s ease; box-shadow: 0 0 8px currentColor; }
+      .fs-bar.active { background: #14F1D9; position: relative; }
+      .fs-bar.active::after { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); animation: sweep 1.5s infinite; }
+      .fs-bar.success { background: #10B981; box-shadow: 0 0 10px #10B981; }
+      .fs-bar.error { background: #EF4444; box-shadow: 0 0 10px #EF4444; }
+      @keyframes sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+      .fs-logs-btn { background: transparent; border: 1px solid #14F1D9; color: #14F1D9; width: 100%; padding: 8px; border-radius: 4px; cursor: pointer; font-family: 'Courier New', monospace; font-size: 11px; margin-top: 20px; transition: 0.2s; font-weight: bold; letter-spacing: 1px; }
+      .fs-logs-btn:hover { background: rgba(20, 241, 217, 0.1); }
+      .fs-logs-container { margin-top: 10px; background: #020617; border: 1px dashed #334155; height: 140px; overflow-y: auto; padding: 10px; font-size: 10px; color: #10B981; display: none; line-height: 1.5; border-radius: 4px; }
+      .fs-close { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #8892B0; cursor: pointer; font-size: 24px; transition: 0.2s; line-height: 1; outline: none; }
+      .fs-close:hover { color: #14F1D9; }
+    </style>
+
+    <button class="fs-close" onclick="closeFsModal()">×</button>
+    <div id="fs-header" class="fs-title"><span></span> CORE AUTOMATION SEQUENCE</div>
+    <div id="fs-steps-container" style="margin-top: 25px;"></div>
+    <button class="fs-logs-btn" onclick="toggleFsLogs()">[ EXTRACT TELEMETRY LOGS ]</button>
+    <div id="fs-logs-view" class="fs-logs-container"></div>
+  </div>
+</div>
+
+<!-- Separate JS file for logic -->
+  <!-- SETTINGS SIDE DRAWER -->
+  <div id="drawer-overlay"></div>
+  <div id="settings-drawer">
+    <div class="drawer-header">
+      <h3 class="drawer-title" id="drawer-title-text">Service Settings</h3>
+      <button class="close-drawer" id="btn-close-drawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer-content" id="drawer-body">
+      <!-- Card injected here dynamically -->
+    </div>
+    <div class="drawer-footer">
+      <button class="pill-btn outline" id="btn-drawer-close-alt">Close</button>
+      <button class="pill-btn primary flex-grow" id="btn-drawer-save">💾 Save Changes</button>
+    </div>
+  </div>
+
+<script src="/js/app.js"></script>
+
+</body>
+</html>

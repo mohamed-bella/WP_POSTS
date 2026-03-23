@@ -15,19 +15,17 @@ async function pingGoogleIndexingAPI(url) {
 
   try {
     const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
-    const jwt = new google.auth.JWT(
-      serviceAccount.client_email,
-      null,
-      serviceAccount.private_key,
-      ['https://www.googleapis.com/auth/indexing']
-    );
+    const auth = new google.auth.GoogleAuth({
+      credentials: serviceAccount,
+      scopes: ['https://www.googleapis.com/auth/indexing']
+    });
 
-    const accessToken = await jwt.getAccessToken();
+    const accessToken = await auth.getAccessToken();
 
     await axios.post(
       'https://indexing.googleapis.com/v3/urlNotifications:publish',
       { url, type: 'URL_UPDATED' },
-      { headers: { Authorization: `Bearer ${accessToken.token}`, 'Content-Type': 'application/json' } }
+      { headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' } }
     );
 
     console.log(`[IndexingAPI] ✅ Pinged Google Indexing API: ${url}`);
@@ -78,31 +76,7 @@ async function pingIndexNow(urls) {
 }
 
 // ──────────────────────────────────────────────────────
-// 3. SITEMAP PING  (Google + Bing)
-// ──────────────────────────────────────────────────────
-async function pingSitemaps() {
-  const sitemapUrl = encodeURIComponent(
-    process.env.WP_SITEMAP_URL || 'https://moroccotravelexperts.com/sitemap.xml'
-  );
-
-  const endpoints = [
-    `https://www.google.com/ping?sitemap=${sitemapUrl}`,
-    `https://www.bing.com/ping?sitemap=${sitemapUrl}`,
-  ];
-
-  for (const endpoint of endpoints) {
-    try {
-      await axios.get(endpoint, { timeout: 10000 });
-      console.log(`[Sitemap] ✅ Pinged: ${endpoint}`);
-    } catch (error) {
-      // Google/Bing sometimes return non-200 but still process the ping
-      console.warn(`[Sitemap] ⚠️  ${endpoint} — ${error.response?.status || error.message}`);
-    }
-  }
-}
-
-// ──────────────────────────────────────────────────────
-// Combined: run all three in order
+// Combined: run active indexing API pushes
 // ──────────────────────────────────────────────────────
 async function runIndexingPipeline(wpUrl, allUrls) {
   console.log('\n--- Running SEO Indexing Pipeline ---');
@@ -116,9 +90,6 @@ async function runIndexingPipeline(wpUrl, allUrls) {
   if (allUrls && allUrls.length > 0) {
     await pingIndexNow(allUrls);
   }
-
-  // 3. Sitemap ping
-  await pingSitemaps();
 
   console.log('--- Indexing Pipeline Complete ---\n');
 }

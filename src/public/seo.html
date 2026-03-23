@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MTE - SEO Performance Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Print Styles */
+    @media print {
+      body * { visibility: hidden; }
+      #seo-modal, #seo-modal * { visibility: visible; }
+      #seo-modal { position: absolute; left: 0; top: 0; box-shadow: none; width: 100%; height: auto; }
+      .pill-btn, .close-btn { display: none !important; }
+    }
+    
+    .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .metrics-box { background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .metrics-box h4 { margin-top: 0; margin-bottom: 10px; font-size: 14px; color: #475569; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+    .metric-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .metric-val { font-weight: 600; color: #0f172a; }
+    .val-good { color: #10B981; } .val-warn { color: #F59E0B; } .val-poor { color: #EF4444; }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+        </div>
+        <div class="logo-text">MTE<span>Bot</span></div>
+      </div>
+
+      <nav id="nav">
+        <div class="nav-section" style="margin-top:20px">Back to App</div>
+        <a href="/" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          <span>Main Dashboard</span>
+        </a>
+
+        <div class="nav-section">SEO Insights</div>
+        <a class="nav-item active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+          <span>Performance Center</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main id="main">
+      <header id="header">
+        <div class="header-left">
+          <button id="menu-toggle" class="icon-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div class="header-title">
+            <h1 class="page-title">Advanced SEO Performance</h1>
+            <p class="page-subtitle">Site-wide tracking & Page-level auditing</p>
+          </div>
+        </div>
+      </header>
+
+      <div id="pages">
+        <div class="page active" id="page-history" style="padding-bottom: 50px;">
+      
+      <div class="dashboard-grid mb-gutter">
+        <div class="card seamless-card col-span-2">
+          <div class="card-header list-header">
+            <h2 class="card-title">Site-Wide SEO Trends</h2>
+            <div class="flex gap-10">
+              <button class="pill-btn primary btn-sm" id="btn-bulk-audit">🚀 Run Site Audit</button>
+              <button class="pill-btn outline btn-sm" id="btn-refresh-seo">Sync Data</button>
+            </div>
+          </div>
+          <div style="padding: 20px; position: relative; height: 300px; width: 100%;">
+            <canvas id="seoChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card seamless-card">
+        <div class="card-header list-header">
+          <h2 class="card-title">Audit History Timeline <span class="count-badge" id="seo-count"></span></h2>
+          <span style="font-size:12px;color:#64748b">Click on any URL to open the detailed page-level report.</span>
+        </div>
+        <div class="table-wrapper" id="seo-history-wrap">
+          <div class="empty">Loading...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE LEVEL AUDIT MODAL -->
+  <div id="seo-modal" style="display:none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items:center; justify-content:center;">
+    <div style="background: white; border-radius: 12px; width: 900px; max-height: 90vh; overflow-y: auto; padding: 30px; position: relative; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
+      <button class="close-btn" onclick="document.getElementById('seo-modal').style.display='none'" style="position: absolute; right: 20px; top: 20px; border:none; background:none; font-size: 24px; cursor: pointer;">&times;</button>
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+        <div>
+          <h2 style="margin:0 0 5px 0" id="modal-url-title">Page Details</h2>
+          <a href="#" id="modal-url-link" target="_blank" style="color:#2563EB; font-size: 14px; word-break: break-all;"></a>
+        </div>
+        <button class="pill-btn outline" onclick="window.print()">🖨️ Print Report</button>
+      </div>
+
+      <div id="modal-loader" style="text-align: center; padding: 40px; color: #64748b;">
+        <span class="spinner" style="margin-bottom:15px; display:inline-block"></span><br>
+        Running full Mobile + Desktop PageSpeed Analysis & Extracting GSC Queries...
+      </div>
+
+      <div id="modal-content" style="display: none;">
+        <div class="metrics-grid">
+          
+          <!-- MOBILE vs DESKTOP -->
+          <div class="metrics-box">
+            <h4>📱 Mobile vs 💻 Desktop Performance</h4>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div>
+                <strong>Mobile</strong>
+                <div class="metric-row"><span>Performance</span> <span class="metric-val" id="ps-mob-perf"></span></div>
+                <div class="metric-row"><span>SEO</span> <span class="metric-val" id="ps-mob-seo"></span></div>
+                <div class="metric-row"><span>Access.</span> <span class="metric-val" id="ps-mob-acc"></span></div>
+              </div>
+              <div style="border-left: 1px solid #e2e8f0; padding-left: 10px;">
+                <strong>Desktop</strong>
+                <div class="metric-row"><span>Performance</span> <span class="metric-val" id="ps-dt-perf"></span></div>
+                <div class="metric-row"><span>SEO</span> <span class="metric-val" id="ps-dt-seo"></span></div>
+                <div class="metric-row"><span>Access.</span> <span class="metric-val" id="ps-dt-acc"></span></div>
+              </div>
+            </div>
+            <h4 style="margin-top: 15px;">⚡ Core Web Vitals (Mobile)</h4>
+            <div class="metric-row"><span>LCP (Largest Cont. Paint)</span> <span class="metric-val" id="vitals-lcp"></span></div>
+            <div class="metric-row"><span>FCP (First Cont. Paint)</span> <span class="metric-val" id="vitals-fcp"></span></div>
+            <div class="metric-row"><span>CLS (Cum. Layout Shift)</span> <span class="metric-val" id="vitals-cls"></span></div>
+            <div class="metric-row"><span>Speed Index</span> <span class="metric-val" id="vitals-si"></span></div>
+          </div>
+
+          <!-- GSC METRICS -->
+          <div class="metrics-box">
+            <h4>🌍 Google Search Console (Last 28 Days)</h4>
+            <div class="metric-row"><span>Total Impressions</span> <span class="metric-val" id="gsc-imp"></span></div>
+            <div class="metric-row"><span>Total Clicks</span> <span class="metric-val" id="gsc-clk"></span></div>
+            <div class="metric-row"><span>Avg CTR</span> <span class="metric-val" id="gsc-ctr"></span></div>
+            <div class="metric-row"><span>Avg Position</span> <span class="metric-val" id="gsc-pos"></span></div>
+            
+            <h4 style="margin-top:20px">🔍 Top Driving Queries</h4>
+            <div style="font-size:12px; max-height:120px; overflow-y:auto">
+              <table style="width:100%">
+                <tbody id="gsc-queries-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- THIRD PARTY PLACEHOLDERS -->
+          <div class="metrics-box" style="opacity: 0.6">
+            <h4>📊 GA4 User Behavior</h4>
+            <div class="metric-row"><span>Avg Engagement Time</span> <span class="metric-val"><i>Requires API Setup</i></span></div>
+            <div class="metric-row"><span>Bounce Rate</span> <span class="metric-val"><i>Requires API Setup</i></span></div>
+          </div>
+
+          <div class="metrics-box" style="opacity: 0.6">
+            <h4>🌐 Third Part Audits</h4>
+            <div class="metric-row"><span>Bing Visibility</span> <span class="metric-val"><i>Requires API Setup</i></span></div>
+            <div class="metric-row"><span>Mozilla Security</span> <span class="metric-val"><i>Requires API Setup</i></span></div>
+            <div class="metric-row"><span>OpenPageRank DA</span> <span class="metric-val"><i>Requires API Setup</i></span></div>
+          </div>
+
+        </div>
+      </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/js/seo.js"></script>
+</body>
+</html>

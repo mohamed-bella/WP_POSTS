@@ -2,8 +2,8 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
 const path = require('path');
-const { getRandomEngagementComment } = require('./openai');
 const { sendWhatsAppUpdate } = require('./whatsapp');
+const { logAction } = require('./db');
 const axios = require('axios');
 
 puppeteer.use(StealthPlugin());
@@ -146,6 +146,7 @@ async function runInstagramStealth() {
     await page.keyboard.press('Enter');
     console.log(`✅ Comment posted on ${postUrl}: "${randomComment}"`);
     await sendWhatsAppUpdate(`💬 *Instagram Engagement:* Commented on post: ${postUrl}\nComment: "${randomComment}"`);
+    logAction('instagram_engage', 'success', { hashtag: targetTag, postUrl, comment: randomComment });
     
     // Wait for the request to finalize
     await randomSleep(5000, 8000);

@@ -1,0 +1,2572 @@
+{
+  "snapshots": [
+    {
+      "date": "2026-03-23",
+      "pulledAt": "2026-03-23T22:07:27.060Z",
+      "queries": [
+        {
+          "query": "morocco travel experts",
+          "clicks": 18,
+          "impressions": 73,
+          "ctr": 24.66,
+          "position": 1.7
+        },
+        {
+          "query": "morocco travel expert",
+          "clicks": 4,
+          "impressions": 10,
+          "ctr": 40,
+          "position": 1.9
+        },
+        {
+          "query": "fes şehir",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 12
+        },
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6
+        },
+        {
+          "query": "모로코 여행 후기",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 10
+        },
+        {
+          "query": "10 daagse rondreis marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 73
+        },
+        {
+          "query": "10 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 100
+        },
+        {
+          "query": "10 jours au maroc",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 55.5
+        },
+        {
+          "query": "2 hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 11
+        },
+        {
+          "query": "2 hasan camii özellikleri",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 9
+        },
+        {
+          "query": "2. hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 8
+        },
+        {
+          "query": "7 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 28
+        },
+        {
+          "query": "8 days tour from casablanca to marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 99
+        },
+        {
+          "query": "9gg trending",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "about marrakech morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 62
+        },
+        {
+          "query": "ait ben haddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 34
+        },
+        {
+          "query": "ait benhaddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 12
+        },
+        {
+          "query": "aït benhaddou",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 25
+        },
+        {
+          "query": "benhaddou",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 9.3
+        },
+        {
+          "query": "buget calatorie maroc",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 1
+        },
+        {
+          "query": "capitala marocco",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 9.5
+        },
+        {
+          "query": "casablanca jewish tour",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "casablanka hava durumu",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 10
+        },
+        {
+          "query": "cascade chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 79
+        },
+        {
+          "query": "chafchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chafchauen",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 91.5
+        },
+        {
+          "query": "chef chaoen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "chef chouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 94
+        },
+        {
+          "query": "chefchaouen",
+          "clicks": 0,
+          "impressions": 54,
+          "ctr": 0,
+          "position": 86
+        },
+        {
+          "query": "chefchaouen cascade",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "chefchaouen city morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 24
+        },
+        {
+          "query": "chefchaouen in morocco",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 37.3
+        },
+        {
+          "query": "chefchaouen maroc",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 72
+        },
+        {
+          "query": "chefchaouen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chefchaouen morocco",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 45.2
+        },
+        {
+          "query": "chefchauen marruecos",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 64
+        },
+        {
+          "query": "chefchouaen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "circuit agadir",
+          "clicks": 0,
+          "impressions": 19,
+          "ctr": 0,
+          "position": 60
+        },
+        {
+          "query": "circuit experts",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 7
+        },
+        {
+          "query": "circuit maroc 1 semaine",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 93
+        },
+        {
+          "query": "circuit maroc 10 jours",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 77.2
+        },
+        {
+          "query": "circuit maroc 12 jours",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 2
+        },
+        {
+          "query": "circuit maroc 7 jours",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 74.4
+        },
+        {
+          "query": "circuit maroc chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 88
+        },
+        {
+          "query": "circuit sud maroc 10 jours",
+          "clicks": 0,
+          "impressions": 8,
+          "ctr": 0,
+          "position": 57.9
+        },
+        {
+          "query": "circuit tanger",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "city marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "city of marrakech",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "coût d'un voyage au maroc",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 10
+        }
+      ],
+      "pages": [
+        {
+          "page": "https://moroccotravelexperts.com/",
+          "clicks": 43,
+          "impressions": 963,
+          "ctr": 4.47,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/about-us/",
+          "clicks": 3,
+          "impressions": 45,
+          "ctr": 6.67,
+          "position": 15.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/es/Historias/Qu%C3%A9-llevar-para-un-tour-por-el-desierto-de-Marruecos/",
+          "clicks": 3,
+          "impressions": 140,
+          "ctr": 2.14,
+          "position": 6.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Le-vrai-co%C3%BBt-d%27un-voyage-en-famille-au-Maroc%C2%A0%3A-parlons-argent--sans-blabla./",
+          "clicks": 2,
+          "impressions": 141,
+          "ctr": 1.42,
+          "position": 8.1
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E3%81%A7%E9%95%B7%E3%81%84%E6%99%82%E9%96%93%E3%82%92%E9%81%8E%E3%81%94%E3%81%97%E3%81%9F%E5%BE%8C%E3%81%AE%E6%AD%A3%E7%9B%B4%E3%81%AA%E6%84%9F%E6%83%B3/",
+          "clicks": 2,
+          "impressions": 3,
+          "ctr": 66.67,
+          "position": 3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E7%A0%82%E6%BC%A0%E3%83%84%E3%82%A2%E3%83%BC%E3%81%AB%E4%BD%95%E3%82%92%E6%8C%81%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8F%E3%81%B9%E3%81%8D%E3%81%8B/",
+          "clicks": 2,
+          "impressions": 41,
+          "ctr": 4.88,
+          "position": 3.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/cities/fes-morocco-complete-travel-guide-to-moroccos-cultural-and-spiritual-capital/",
+          "clicks": 1,
+          "impressions": 640,
+          "ctr": 0.16,
+          "position": 12
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-departure-city/casablanca/",
+          "clicks": 1,
+          "impressions": 41,
+          "ctr": 2.44,
+          "position": 9.9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-tour/3-days-marrakech-desert-family-adventure/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/Tourradar-Tour/Circuit-de-14-jours-au-Maroc-%3A-villes-imp%C3%A9riales--perle-bleue--montagnes-de-l%27Atlas--Sahara-et-souks/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 128.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Impressions-sinc%C3%A8res-sur-le-Maroc-apr%C3%A8s-y-avoir-pass%C3%A9-beaucoup-trop-de-temps./",
+          "clicks": 1,
+          "impressions": 7,
+          "ctr": 14.29,
+          "position": 8.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Que-faut-il-emporter-pour-une-excursion-dans-le-d%C3%A9sert-marocain-/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/4-jours-d%27excursion-en-famille-dans-le-d%C3%A9sert--de-F%C3%A8s-%C3%A0-Marrakech/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/Circuit-de-7-jours-dans-le-d%C3%A9sert-du-Sahara-au-d%C3%A9part-de-Tanger/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 18.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-12-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 14,
+          "ctr": 7.14,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-4-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 4.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/storie/cosa-mettere-in-valigia-per-un-tour-nel-deserto-del-Marocco/",
+          "clicks": 1,
+          "impressions": 57,
+          "ctr": 1.75,
+          "position": 6.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/iw/%D7%A1%D7%99%D7%95%D7%A8%D7%99%D7%9D/%D7%98%D7%99%D7%95%D7%9C-%D7%9E%D7%A9%D7%A4%D7%97%D7%AA%D7%99-%D7%91%D7%9F-10-%D7%99%D7%9E%D7%99%D7%9D-%D7%A2%D7%9D-%D7%90%D7%98%D7%A8%D7%A7%D7%A6%D7%99%D7%95%D7%AA-%D7%9E%D7%A8%D7%95%D7%A7%D7%95--%D7%9E%D7%9E%D7%A8%D7%A7%D7%A9-%D7%9C%D7%98%D7%A0%D7%92%27%D7%99%D7%A8/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 25
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E9%83%BD%E5%B8%82/%E3%82%A8%E3%83%83%E3%82%B5%E3%82%A6%E3%82%A3%E3%83%A9/",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 11.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/experiences/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 4.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/",
+          "clicks": 1,
+          "impressions": 12,
+          "ctr": 8.33,
+          "position": 13.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/%EC%9D%B4%EC%95%BC%EA%B8%B0/%EB%AA%A8%EB%A1%9C%EC%BD%94%EC%97%90%EC%84%9C-%EB%84%88%EB%AC%B4-%EC%98%A4%EB%9E%9C-%EC%8B%9C%EA%B0%84%EC%9D%84-%EB%B3%B4%EB%82%B8-%ED%9B%84-%EB%8A%90%EB%82%80-%EC%86%94%EC%A7%81%ED%95%9C-%EC%83%9D%EA%B0%81%EB%93%A4/",
+          "clicks": 1,
+          "impressions": 6,
+          "ctr": 16.67,
+          "position": 6.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/15-daagse--ontspannen-ontdekkingsreis-voor-het-hele-gezin-vanuit-Casablanca/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 68.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/7-daagse-Marokko-tours-vanuit-Marrakech/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 61.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/tour/6-day-morocco-tour/",
+          "clicks": 1,
+          "impressions": 5,
+          "ctr": 20,
+          "position": 12.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/our-story/",
+          "clicks": 1,
+          "impressions": 28,
+          "ctr": 3.57,
+          "position": 10.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BA%D0%B0%D1%81%D0%B1%D0%B0-%D0%A0%D0%B0%D0%B1%D0%B0%D1%82-%D0%A3%D0%B4%D0%B0%D0%B9%D0%B8/",
+          "clicks": 1,
+          "impressions": 37,
+          "ctr": 2.7,
+          "position": 9.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BC%D0%B5%D1%87%D0%B5%D1%82%D1%8C-%D0%A5%D0%B0%D1%81%D0%B0%D0%BD%D0%B0-II-%D0%B2-%D0%9A%D0%B0%D1%81%D0%B0%D0%B1%D0%BB%D0%B0%D0%BD%D0%BA%D0%B5/",
+          "clicks": 1,
+          "impressions": 30,
+          "ctr": 3.33,
+          "position": 8.7
+        }
+      ],
+      "opportunities": [
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5,
+          "potential": 48
+        },
+        {
+          "query": "morocco small group tours expert guides",
+          "clicks": 0,
+          "impressions": 55,
+          "ctr": 0,
+          "position": 8.7,
+          "potential": 17
+        },
+        {
+          "query": "esperti del marocco",
+          "clicks": 0,
+          "impressions": 22,
+          "ctr": 0,
+          "position": 19,
+          "potential": 7
+        },
+        {
+          "query": "fas agadir turu",
+          "clicks": 0,
+          "impressions": 18,
+          "ctr": 0,
+          "position": 12.3,
+          "potential": 5
+        },
+        {
+          "query": "moroccan family tours",
+          "clicks": 0,
+          "impressions": 17,
+          "ctr": 0,
+          "position": 11.7,
+          "potential": 5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6,
+          "potential": 5
+        },
+        {
+          "query": "family morocco tour",
+          "clicks": 0,
+          "impressions": 13,
+          "ctr": 0,
+          "position": 11.8,
+          "potential": 4
+        },
+        {
+          "query": "fes (şehir)",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 10.2,
+          "potential": 3
+        },
+        {
+          "query": "fes fas",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 12.6,
+          "potential": 3
+        }
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "pulledAt": "2026-03-23T21:52:24.307Z",
+      "queries": [
+        {
+          "query": "morocco travel experts",
+          "clicks": 18,
+          "impressions": 73,
+          "ctr": 24.66,
+          "position": 1.7
+        },
+        {
+          "query": "morocco travel expert",
+          "clicks": 4,
+          "impressions": 10,
+          "ctr": 40,
+          "position": 1.9
+        },
+        {
+          "query": "fes şehir",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 12
+        },
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6
+        },
+        {
+          "query": "모로코 여행 후기",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 10
+        },
+        {
+          "query": "10 daagse rondreis marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 73
+        },
+        {
+          "query": "10 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 100
+        },
+        {
+          "query": "10 jours au maroc",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 55.5
+        },
+        {
+          "query": "2 hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 11
+        },
+        {
+          "query": "2 hasan camii özellikleri",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 9
+        },
+        {
+          "query": "2. hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 8
+        },
+        {
+          "query": "7 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 28
+        },
+        {
+          "query": "8 days tour from casablanca to marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 99
+        },
+        {
+          "query": "9gg trending",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "about marrakech morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 62
+        },
+        {
+          "query": "ait ben haddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 34
+        },
+        {
+          "query": "ait benhaddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 12
+        },
+        {
+          "query": "aït benhaddou",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 25
+        },
+        {
+          "query": "benhaddou",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 9.3
+        },
+        {
+          "query": "buget calatorie maroc",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 1
+        },
+        {
+          "query": "capitala marocco",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 9.5
+        },
+        {
+          "query": "casablanca jewish tour",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "casablanka hava durumu",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 10
+        },
+        {
+          "query": "cascade chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 79
+        },
+        {
+          "query": "chafchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chafchauen",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 91.5
+        },
+        {
+          "query": "chef chaoen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "chef chouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 94
+        },
+        {
+          "query": "chefchaouen",
+          "clicks": 0,
+          "impressions": 54,
+          "ctr": 0,
+          "position": 86
+        },
+        {
+          "query": "chefchaouen cascade",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "chefchaouen city morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 24
+        },
+        {
+          "query": "chefchaouen in morocco",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 37.3
+        },
+        {
+          "query": "chefchaouen maroc",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 72
+        },
+        {
+          "query": "chefchaouen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chefchaouen morocco",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 45.2
+        },
+        {
+          "query": "chefchauen marruecos",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 64
+        },
+        {
+          "query": "chefchouaen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "circuit agadir",
+          "clicks": 0,
+          "impressions": 19,
+          "ctr": 0,
+          "position": 60
+        },
+        {
+          "query": "circuit experts",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 7
+        },
+        {
+          "query": "circuit maroc 1 semaine",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 93
+        },
+        {
+          "query": "circuit maroc 10 jours",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 77.2
+        },
+        {
+          "query": "circuit maroc 12 jours",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 2
+        },
+        {
+          "query": "circuit maroc 7 jours",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 74.4
+        },
+        {
+          "query": "circuit maroc chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 88
+        },
+        {
+          "query": "circuit sud maroc 10 jours",
+          "clicks": 0,
+          "impressions": 8,
+          "ctr": 0,
+          "position": 57.9
+        },
+        {
+          "query": "circuit tanger",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "city marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "city of marrakech",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "coût d'un voyage au maroc",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 10
+        }
+      ],
+      "pages": [
+        {
+          "page": "https://moroccotravelexperts.com/",
+          "clicks": 43,
+          "impressions": 963,
+          "ctr": 4.47,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/about-us/",
+          "clicks": 3,
+          "impressions": 45,
+          "ctr": 6.67,
+          "position": 15.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/es/Historias/Qu%C3%A9-llevar-para-un-tour-por-el-desierto-de-Marruecos/",
+          "clicks": 3,
+          "impressions": 140,
+          "ctr": 2.14,
+          "position": 6.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Le-vrai-co%C3%BBt-d%27un-voyage-en-famille-au-Maroc%C2%A0%3A-parlons-argent--sans-blabla./",
+          "clicks": 2,
+          "impressions": 141,
+          "ctr": 1.42,
+          "position": 8.1
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E3%81%A7%E9%95%B7%E3%81%84%E6%99%82%E9%96%93%E3%82%92%E9%81%8E%E3%81%94%E3%81%97%E3%81%9F%E5%BE%8C%E3%81%AE%E6%AD%A3%E7%9B%B4%E3%81%AA%E6%84%9F%E6%83%B3/",
+          "clicks": 2,
+          "impressions": 3,
+          "ctr": 66.67,
+          "position": 3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E7%A0%82%E6%BC%A0%E3%83%84%E3%82%A2%E3%83%BC%E3%81%AB%E4%BD%95%E3%82%92%E6%8C%81%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8F%E3%81%B9%E3%81%8D%E3%81%8B/",
+          "clicks": 2,
+          "impressions": 41,
+          "ctr": 4.88,
+          "position": 3.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/cities/fes-morocco-complete-travel-guide-to-moroccos-cultural-and-spiritual-capital/",
+          "clicks": 1,
+          "impressions": 640,
+          "ctr": 0.16,
+          "position": 12
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-departure-city/casablanca/",
+          "clicks": 1,
+          "impressions": 41,
+          "ctr": 2.44,
+          "position": 9.9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-tour/3-days-marrakech-desert-family-adventure/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/Tourradar-Tour/Circuit-de-14-jours-au-Maroc-%3A-villes-imp%C3%A9riales--perle-bleue--montagnes-de-l%27Atlas--Sahara-et-souks/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 128.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Impressions-sinc%C3%A8res-sur-le-Maroc-apr%C3%A8s-y-avoir-pass%C3%A9-beaucoup-trop-de-temps./",
+          "clicks": 1,
+          "impressions": 7,
+          "ctr": 14.29,
+          "position": 8.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Que-faut-il-emporter-pour-une-excursion-dans-le-d%C3%A9sert-marocain-/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/4-jours-d%27excursion-en-famille-dans-le-d%C3%A9sert--de-F%C3%A8s-%C3%A0-Marrakech/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/Circuit-de-7-jours-dans-le-d%C3%A9sert-du-Sahara-au-d%C3%A9part-de-Tanger/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 18.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-12-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 14,
+          "ctr": 7.14,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-4-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 4.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/storie/cosa-mettere-in-valigia-per-un-tour-nel-deserto-del-Marocco/",
+          "clicks": 1,
+          "impressions": 57,
+          "ctr": 1.75,
+          "position": 6.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/iw/%D7%A1%D7%99%D7%95%D7%A8%D7%99%D7%9D/%D7%98%D7%99%D7%95%D7%9C-%D7%9E%D7%A9%D7%A4%D7%97%D7%AA%D7%99-%D7%91%D7%9F-10-%D7%99%D7%9E%D7%99%D7%9D-%D7%A2%D7%9D-%D7%90%D7%98%D7%A8%D7%A7%D7%A6%D7%99%D7%95%D7%AA-%D7%9E%D7%A8%D7%95%D7%A7%D7%95--%D7%9E%D7%9E%D7%A8%D7%A7%D7%A9-%D7%9C%D7%98%D7%A0%D7%92%27%D7%99%D7%A8/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 25
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E9%83%BD%E5%B8%82/%E3%82%A8%E3%83%83%E3%82%B5%E3%82%A6%E3%82%A3%E3%83%A9/",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 11.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/experiences/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 4.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/",
+          "clicks": 1,
+          "impressions": 12,
+          "ctr": 8.33,
+          "position": 13.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/%EC%9D%B4%EC%95%BC%EA%B8%B0/%EB%AA%A8%EB%A1%9C%EC%BD%94%EC%97%90%EC%84%9C-%EB%84%88%EB%AC%B4-%EC%98%A4%EB%9E%9C-%EC%8B%9C%EA%B0%84%EC%9D%84-%EB%B3%B4%EB%82%B8-%ED%9B%84-%EB%8A%90%EB%82%80-%EC%86%94%EC%A7%81%ED%95%9C-%EC%83%9D%EA%B0%81%EB%93%A4/",
+          "clicks": 1,
+          "impressions": 6,
+          "ctr": 16.67,
+          "position": 6.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/15-daagse--ontspannen-ontdekkingsreis-voor-het-hele-gezin-vanuit-Casablanca/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 68.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/7-daagse-Marokko-tours-vanuit-Marrakech/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 61.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/tour/6-day-morocco-tour/",
+          "clicks": 1,
+          "impressions": 5,
+          "ctr": 20,
+          "position": 12.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/our-story/",
+          "clicks": 1,
+          "impressions": 28,
+          "ctr": 3.57,
+          "position": 10.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BA%D0%B0%D1%81%D0%B1%D0%B0-%D0%A0%D0%B0%D0%B1%D0%B0%D1%82-%D0%A3%D0%B4%D0%B0%D0%B9%D0%B8/",
+          "clicks": 1,
+          "impressions": 37,
+          "ctr": 2.7,
+          "position": 9.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BC%D0%B5%D1%87%D0%B5%D1%82%D1%8C-%D0%A5%D0%B0%D1%81%D0%B0%D0%BD%D0%B0-II-%D0%B2-%D0%9A%D0%B0%D1%81%D0%B0%D0%B1%D0%BB%D0%B0%D0%BD%D0%BA%D0%B5/",
+          "clicks": 1,
+          "impressions": 30,
+          "ctr": 3.33,
+          "position": 8.7
+        }
+      ],
+      "opportunities": [
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5,
+          "potential": 48
+        },
+        {
+          "query": "morocco small group tours expert guides",
+          "clicks": 0,
+          "impressions": 55,
+          "ctr": 0,
+          "position": 8.7,
+          "potential": 17
+        },
+        {
+          "query": "esperti del marocco",
+          "clicks": 0,
+          "impressions": 22,
+          "ctr": 0,
+          "position": 19,
+          "potential": 7
+        },
+        {
+          "query": "fas agadir turu",
+          "clicks": 0,
+          "impressions": 18,
+          "ctr": 0,
+          "position": 12.3,
+          "potential": 5
+        },
+        {
+          "query": "moroccan family tours",
+          "clicks": 0,
+          "impressions": 17,
+          "ctr": 0,
+          "position": 11.7,
+          "potential": 5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6,
+          "potential": 5
+        },
+        {
+          "query": "family morocco tour",
+          "clicks": 0,
+          "impressions": 13,
+          "ctr": 0,
+          "position": 11.8,
+          "potential": 4
+        },
+        {
+          "query": "fes (şehir)",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 10.2,
+          "potential": 3
+        },
+        {
+          "query": "fes fas",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 12.6,
+          "potential": 3
+        }
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "pulledAt": "2026-03-23T20:50:40.114Z",
+      "queries": [
+        {
+          "query": "morocco travel experts",
+          "clicks": 18,
+          "impressions": 73,
+          "ctr": 24.66,
+          "position": 1.7
+        },
+        {
+          "query": "morocco travel expert",
+          "clicks": 4,
+          "impressions": 10,
+          "ctr": 40,
+          "position": 1.9
+        },
+        {
+          "query": "fes şehir",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 12
+        },
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6
+        },
+        {
+          "query": "모로코 여행 후기",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 10
+        },
+        {
+          "query": "10 daagse rondreis marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 73
+        },
+        {
+          "query": "10 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 100
+        },
+        {
+          "query": "10 jours au maroc",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 55.5
+        },
+        {
+          "query": "2 hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 11
+        },
+        {
+          "query": "2 hasan camii özellikleri",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 9
+        },
+        {
+          "query": "2. hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 8
+        },
+        {
+          "query": "7 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 28
+        },
+        {
+          "query": "8 days tour from casablanca to marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 99
+        },
+        {
+          "query": "9gg trending",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "about marrakech morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 62
+        },
+        {
+          "query": "ait ben haddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 34
+        },
+        {
+          "query": "ait benhaddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 12
+        },
+        {
+          "query": "aït benhaddou",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 25
+        },
+        {
+          "query": "benhaddou",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 9.3
+        },
+        {
+          "query": "buget calatorie maroc",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 1
+        },
+        {
+          "query": "capitala marocco",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 9.5
+        },
+        {
+          "query": "casablanca jewish tour",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "casablanka hava durumu",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 10
+        },
+        {
+          "query": "cascade chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 79
+        },
+        {
+          "query": "chafchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chafchauen",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 91.5
+        },
+        {
+          "query": "chef chaoen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "chef chouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 94
+        },
+        {
+          "query": "chefchaouen",
+          "clicks": 0,
+          "impressions": 54,
+          "ctr": 0,
+          "position": 86
+        },
+        {
+          "query": "chefchaouen cascade",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "chefchaouen city morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 24
+        },
+        {
+          "query": "chefchaouen in morocco",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 37.3
+        },
+        {
+          "query": "chefchaouen maroc",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 72
+        },
+        {
+          "query": "chefchaouen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chefchaouen morocco",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 45.2
+        },
+        {
+          "query": "chefchauen marruecos",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 64
+        },
+        {
+          "query": "chefchouaen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "circuit agadir",
+          "clicks": 0,
+          "impressions": 19,
+          "ctr": 0,
+          "position": 60
+        },
+        {
+          "query": "circuit experts",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 7
+        },
+        {
+          "query": "circuit maroc 1 semaine",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 93
+        },
+        {
+          "query": "circuit maroc 10 jours",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 77.2
+        },
+        {
+          "query": "circuit maroc 12 jours",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 2
+        },
+        {
+          "query": "circuit maroc 7 jours",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 74.4
+        },
+        {
+          "query": "circuit maroc chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 88
+        },
+        {
+          "query": "circuit sud maroc 10 jours",
+          "clicks": 0,
+          "impressions": 8,
+          "ctr": 0,
+          "position": 57.9
+        },
+        {
+          "query": "circuit tanger",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "city marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "city of marrakech",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "coût d'un voyage au maroc",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 10
+        }
+      ],
+      "pages": [
+        {
+          "page": "https://moroccotravelexperts.com/",
+          "clicks": 43,
+          "impressions": 963,
+          "ctr": 4.47,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/about-us/",
+          "clicks": 3,
+          "impressions": 45,
+          "ctr": 6.67,
+          "position": 15.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/es/Historias/Qu%C3%A9-llevar-para-un-tour-por-el-desierto-de-Marruecos/",
+          "clicks": 3,
+          "impressions": 140,
+          "ctr": 2.14,
+          "position": 6.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Le-vrai-co%C3%BBt-d%27un-voyage-en-famille-au-Maroc%C2%A0%3A-parlons-argent--sans-blabla./",
+          "clicks": 2,
+          "impressions": 141,
+          "ctr": 1.42,
+          "position": 8.1
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E3%81%A7%E9%95%B7%E3%81%84%E6%99%82%E9%96%93%E3%82%92%E9%81%8E%E3%81%94%E3%81%97%E3%81%9F%E5%BE%8C%E3%81%AE%E6%AD%A3%E7%9B%B4%E3%81%AA%E6%84%9F%E6%83%B3/",
+          "clicks": 2,
+          "impressions": 3,
+          "ctr": 66.67,
+          "position": 3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E7%A0%82%E6%BC%A0%E3%83%84%E3%82%A2%E3%83%BC%E3%81%AB%E4%BD%95%E3%82%92%E6%8C%81%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8F%E3%81%B9%E3%81%8D%E3%81%8B/",
+          "clicks": 2,
+          "impressions": 41,
+          "ctr": 4.88,
+          "position": 3.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/cities/fes-morocco-complete-travel-guide-to-moroccos-cultural-and-spiritual-capital/",
+          "clicks": 1,
+          "impressions": 640,
+          "ctr": 0.16,
+          "position": 12
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-departure-city/casablanca/",
+          "clicks": 1,
+          "impressions": 41,
+          "ctr": 2.44,
+          "position": 9.9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-tour/3-days-marrakech-desert-family-adventure/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/Tourradar-Tour/Circuit-de-14-jours-au-Maroc-%3A-villes-imp%C3%A9riales--perle-bleue--montagnes-de-l%27Atlas--Sahara-et-souks/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 128.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Impressions-sinc%C3%A8res-sur-le-Maroc-apr%C3%A8s-y-avoir-pass%C3%A9-beaucoup-trop-de-temps./",
+          "clicks": 1,
+          "impressions": 7,
+          "ctr": 14.29,
+          "position": 8.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Que-faut-il-emporter-pour-une-excursion-dans-le-d%C3%A9sert-marocain-/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/4-jours-d%27excursion-en-famille-dans-le-d%C3%A9sert--de-F%C3%A8s-%C3%A0-Marrakech/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/Circuit-de-7-jours-dans-le-d%C3%A9sert-du-Sahara-au-d%C3%A9part-de-Tanger/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 18.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-12-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 14,
+          "ctr": 7.14,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-4-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 4.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/storie/cosa-mettere-in-valigia-per-un-tour-nel-deserto-del-Marocco/",
+          "clicks": 1,
+          "impressions": 57,
+          "ctr": 1.75,
+          "position": 6.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/iw/%D7%A1%D7%99%D7%95%D7%A8%D7%99%D7%9D/%D7%98%D7%99%D7%95%D7%9C-%D7%9E%D7%A9%D7%A4%D7%97%D7%AA%D7%99-%D7%91%D7%9F-10-%D7%99%D7%9E%D7%99%D7%9D-%D7%A2%D7%9D-%D7%90%D7%98%D7%A8%D7%A7%D7%A6%D7%99%D7%95%D7%AA-%D7%9E%D7%A8%D7%95%D7%A7%D7%95--%D7%9E%D7%9E%D7%A8%D7%A7%D7%A9-%D7%9C%D7%98%D7%A0%D7%92%27%D7%99%D7%A8/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 25
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E9%83%BD%E5%B8%82/%E3%82%A8%E3%83%83%E3%82%B5%E3%82%A6%E3%82%A3%E3%83%A9/",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 11.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/experiences/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 4.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/",
+          "clicks": 1,
+          "impressions": 12,
+          "ctr": 8.33,
+          "position": 13.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/%EC%9D%B4%EC%95%BC%EA%B8%B0/%EB%AA%A8%EB%A1%9C%EC%BD%94%EC%97%90%EC%84%9C-%EB%84%88%EB%AC%B4-%EC%98%A4%EB%9E%9C-%EC%8B%9C%EA%B0%84%EC%9D%84-%EB%B3%B4%EB%82%B8-%ED%9B%84-%EB%8A%90%EB%82%80-%EC%86%94%EC%A7%81%ED%95%9C-%EC%83%9D%EA%B0%81%EB%93%A4/",
+          "clicks": 1,
+          "impressions": 6,
+          "ctr": 16.67,
+          "position": 6.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/15-daagse--ontspannen-ontdekkingsreis-voor-het-hele-gezin-vanuit-Casablanca/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 68.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/7-daagse-Marokko-tours-vanuit-Marrakech/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 61.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/tour/6-day-morocco-tour/",
+          "clicks": 1,
+          "impressions": 5,
+          "ctr": 20,
+          "position": 12.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/our-story/",
+          "clicks": 1,
+          "impressions": 28,
+          "ctr": 3.57,
+          "position": 10.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BA%D0%B0%D1%81%D0%B1%D0%B0-%D0%A0%D0%B0%D0%B1%D0%B0%D1%82-%D0%A3%D0%B4%D0%B0%D0%B9%D0%B8/",
+          "clicks": 1,
+          "impressions": 37,
+          "ctr": 2.7,
+          "position": 9.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BC%D0%B5%D1%87%D0%B5%D1%82%D1%8C-%D0%A5%D0%B0%D1%81%D0%B0%D0%BD%D0%B0-II-%D0%B2-%D0%9A%D0%B0%D1%81%D0%B0%D0%B1%D0%BB%D0%B0%D0%BD%D0%BA%D0%B5/",
+          "clicks": 1,
+          "impressions": 30,
+          "ctr": 3.33,
+          "position": 8.7
+        }
+      ],
+      "opportunities": [
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5,
+          "potential": 48
+        },
+        {
+          "query": "morocco small group tours expert guides",
+          "clicks": 0,
+          "impressions": 55,
+          "ctr": 0,
+          "position": 8.7,
+          "potential": 17
+        },
+        {
+          "query": "esperti del marocco",
+          "clicks": 0,
+          "impressions": 22,
+          "ctr": 0,
+          "position": 19,
+          "potential": 7
+        },
+        {
+          "query": "fas agadir turu",
+          "clicks": 0,
+          "impressions": 18,
+          "ctr": 0,
+          "position": 12.3,
+          "potential": 5
+        },
+        {
+          "query": "moroccan family tours",
+          "clicks": 0,
+          "impressions": 17,
+          "ctr": 0,
+          "position": 11.7,
+          "potential": 5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6,
+          "potential": 5
+        },
+        {
+          "query": "family morocco tour",
+          "clicks": 0,
+          "impressions": 13,
+          "ctr": 0,
+          "position": 11.8,
+          "potential": 4
+        },
+        {
+          "query": "fes (şehir)",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 10.2,
+          "potential": 3
+        },
+        {
+          "query": "fes fas",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 12.6,
+          "potential": 3
+        }
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "pulledAt": "2026-03-23T20:23:13.950Z",
+      "queries": [
+        {
+          "query": "morocco travel experts",
+          "clicks": 18,
+          "impressions": 73,
+          "ctr": 24.66,
+          "position": 1.7
+        },
+        {
+          "query": "morocco travel expert",
+          "clicks": 4,
+          "impressions": 10,
+          "ctr": 40,
+          "position": 1.9
+        },
+        {
+          "query": "fes şehir",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 12
+        },
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6
+        },
+        {
+          "query": "모로코 여행 후기",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 10
+        },
+        {
+          "query": "10 daagse rondreis marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 73
+        },
+        {
+          "query": "10 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 100
+        },
+        {
+          "query": "10 jours au maroc",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 55.5
+        },
+        {
+          "query": "2 hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 11
+        },
+        {
+          "query": "2 hasan camii özellikleri",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 9
+        },
+        {
+          "query": "2. hasan camii",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 8
+        },
+        {
+          "query": "7 dagen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 28
+        },
+        {
+          "query": "8 days tour from casablanca to marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 99
+        },
+        {
+          "query": "9gg trending",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "about marrakech morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 62
+        },
+        {
+          "query": "ait ben haddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 34
+        },
+        {
+          "query": "ait benhaddou",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 12
+        },
+        {
+          "query": "aït benhaddou",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 25
+        },
+        {
+          "query": "benhaddou",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 9.3
+        },
+        {
+          "query": "buget calatorie maroc",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 1
+        },
+        {
+          "query": "capitala marocco",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 9.5
+        },
+        {
+          "query": "casablanca jewish tour",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "casablanka hava durumu",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 10
+        },
+        {
+          "query": "cascade chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 79
+        },
+        {
+          "query": "chafchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chafchauen",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 91.5
+        },
+        {
+          "query": "chef chaoen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "chef chouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 94
+        },
+        {
+          "query": "chefchaouen",
+          "clicks": 0,
+          "impressions": 54,
+          "ctr": 0,
+          "position": 86
+        },
+        {
+          "query": "chefchaouen cascade",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "chefchaouen city morocco",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 24
+        },
+        {
+          "query": "chefchaouen in morocco",
+          "clicks": 0,
+          "impressions": 3,
+          "ctr": 0,
+          "position": 37.3
+        },
+        {
+          "query": "chefchaouen maroc",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 72
+        },
+        {
+          "query": "chefchaouen marokko",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 97
+        },
+        {
+          "query": "chefchaouen morocco",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 45.2
+        },
+        {
+          "query": "chefchauen marruecos",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 64
+        },
+        {
+          "query": "chefchouaen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "query": "circuit agadir",
+          "clicks": 0,
+          "impressions": 19,
+          "ctr": 0,
+          "position": 60
+        },
+        {
+          "query": "circuit experts",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 7
+        },
+        {
+          "query": "circuit maroc 1 semaine",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 93
+        },
+        {
+          "query": "circuit maroc 10 jours",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 77.2
+        },
+        {
+          "query": "circuit maroc 12 jours",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 2
+        },
+        {
+          "query": "circuit maroc 7 jours",
+          "clicks": 0,
+          "impressions": 5,
+          "ctr": 0,
+          "position": 74.4
+        },
+        {
+          "query": "circuit maroc chefchaouen",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 88
+        },
+        {
+          "query": "circuit sud maroc 10 jours",
+          "clicks": 0,
+          "impressions": 8,
+          "ctr": 0,
+          "position": 57.9
+        },
+        {
+          "query": "circuit tanger",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 50
+        },
+        {
+          "query": "city marrakech",
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 67
+        },
+        {
+          "query": "city of marrakech",
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 31
+        },
+        {
+          "query": "coût d'un voyage au maroc",
+          "clicks": 0,
+          "impressions": 6,
+          "ctr": 0,
+          "position": 10
+        }
+      ],
+      "pages": [
+        {
+          "page": "https://moroccotravelexperts.com/",
+          "clicks": 43,
+          "impressions": 963,
+          "ctr": 4.47,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/about-us/",
+          "clicks": 3,
+          "impressions": 45,
+          "ctr": 6.67,
+          "position": 15.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/es/Historias/Qu%C3%A9-llevar-para-un-tour-por-el-desierto-de-Marruecos/",
+          "clicks": 3,
+          "impressions": 140,
+          "ctr": 2.14,
+          "position": 6.8
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Le-vrai-co%C3%BBt-d%27un-voyage-en-famille-au-Maroc%C2%A0%3A-parlons-argent--sans-blabla./",
+          "clicks": 2,
+          "impressions": 141,
+          "ctr": 1.42,
+          "position": 8.1
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E3%81%A7%E9%95%B7%E3%81%84%E6%99%82%E9%96%93%E3%82%92%E9%81%8E%E3%81%94%E3%81%97%E3%81%9F%E5%BE%8C%E3%81%AE%E6%AD%A3%E7%9B%B4%E3%81%AA%E6%84%9F%E6%83%B3/",
+          "clicks": 2,
+          "impressions": 3,
+          "ctr": 66.67,
+          "position": 3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E7%89%A9%E8%AA%9E/%E3%83%A2%E3%83%AD%E3%83%83%E3%82%B3%E7%A0%82%E6%BC%A0%E3%83%84%E3%82%A2%E3%83%BC%E3%81%AB%E4%BD%95%E3%82%92%E6%8C%81%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8F%E3%81%B9%E3%81%8D%E3%81%8B/",
+          "clicks": 2,
+          "impressions": 41,
+          "ctr": 4.88,
+          "position": 3.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/cities/fes-morocco-complete-travel-guide-to-moroccos-cultural-and-spiritual-capital/",
+          "clicks": 1,
+          "impressions": 640,
+          "ctr": 0.16,
+          "position": 12
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-departure-city/casablanca/",
+          "clicks": 1,
+          "impressions": 41,
+          "ctr": 2.44,
+          "position": 9.9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/family-tour/3-days-marrakech-desert-family-adventure/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 9
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/Tourradar-Tour/Circuit-de-14-jours-au-Maroc-%3A-villes-imp%C3%A9riales--perle-bleue--montagnes-de-l%27Atlas--Sahara-et-souks/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 128.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Impressions-sinc%C3%A8res-sur-le-Maroc-apr%C3%A8s-y-avoir-pass%C3%A9-beaucoup-trop-de-temps./",
+          "clicks": 1,
+          "impressions": 7,
+          "ctr": 14.29,
+          "position": 8.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/histoires/Que-faut-il-emporter-pour-une-excursion-dans-le-d%C3%A9sert-marocain-/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/4-jours-d%27excursion-en-famille-dans-le-d%C3%A9sert--de-F%C3%A8s-%C3%A0-Marrakech/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/participer-%C3%A0-un-circuit/Circuit-de-7-jours-dans-le-d%C3%A9sert-du-Sahara-au-d%C3%A9part-de-Tanger/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 18.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-12-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 14,
+          "ctr": 7.14,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/fr/tour-/Circuit-de-4-jours-au-Maroc/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 4.6
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/",
+          "clicks": 1,
+          "impressions": 10,
+          "ctr": 10,
+          "position": 9.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/it/storie/cosa-mettere-in-valigia-per-un-tour-nel-deserto-del-Marocco/",
+          "clicks": 1,
+          "impressions": 57,
+          "ctr": 1.75,
+          "position": 6.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/iw/%D7%A1%D7%99%D7%95%D7%A8%D7%99%D7%9D/%D7%98%D7%99%D7%95%D7%9C-%D7%9E%D7%A9%D7%A4%D7%97%D7%AA%D7%99-%D7%91%D7%9F-10-%D7%99%D7%9E%D7%99%D7%9D-%D7%A2%D7%9D-%D7%90%D7%98%D7%A8%D7%A7%D7%A6%D7%99%D7%95%D7%AA-%D7%9E%D7%A8%D7%95%D7%A7%D7%95--%D7%9E%D7%9E%D7%A8%D7%A7%D7%A9-%D7%9C%D7%98%D7%A0%D7%92%27%D7%99%D7%A8/",
+          "clicks": 1,
+          "impressions": 1,
+          "ctr": 100,
+          "position": 25
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/",
+          "clicks": 1,
+          "impressions": 11,
+          "ctr": 9.09,
+          "position": 7.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/%E9%83%BD%E5%B8%82/%E3%82%A8%E3%83%83%E3%82%B5%E3%82%A6%E3%82%A3%E3%83%A9/",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 11.7
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ja/experiences/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 4.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/",
+          "clicks": 1,
+          "impressions": 12,
+          "ctr": 8.33,
+          "position": 13.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ko/%EC%9D%B4%EC%95%BC%EA%B8%B0/%EB%AA%A8%EB%A1%9C%EC%BD%94%EC%97%90%EC%84%9C-%EB%84%88%EB%AC%B4-%EC%98%A4%EB%9E%9C-%EC%8B%9C%EA%B0%84%EC%9D%84-%EB%B3%B4%EB%82%B8-%ED%9B%84-%EB%8A%90%EB%82%80-%EC%86%94%EC%A7%81%ED%95%9C-%EC%83%9D%EA%B0%81%EB%93%A4/",
+          "clicks": 1,
+          "impressions": 6,
+          "ctr": 16.67,
+          "position": 6.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/15-daagse--ontspannen-ontdekkingsreis-voor-het-hele-gezin-vanuit-Casablanca/",
+          "clicks": 1,
+          "impressions": 3,
+          "ctr": 33.33,
+          "position": 68.3
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/torens/7-daagse-Marokko-tours-vanuit-Marrakech/",
+          "clicks": 1,
+          "impressions": 2,
+          "ctr": 50,
+          "position": 61.5
+        },
+        {
+          "page": "https://moroccotravelexperts.com/nl/tour/6-day-morocco-tour/",
+          "clicks": 1,
+          "impressions": 5,
+          "ctr": 20,
+          "position": 12.4
+        },
+        {
+          "page": "https://moroccotravelexperts.com/our-story/",
+          "clicks": 1,
+          "impressions": 28,
+          "ctr": 3.57,
+          "position": 10.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BA%D0%B0%D1%81%D0%B1%D0%B0-%D0%A0%D0%B0%D0%B1%D0%B0%D1%82-%D0%A3%D0%B4%D0%B0%D0%B9%D0%B8/",
+          "clicks": 1,
+          "impressions": 37,
+          "ctr": 2.7,
+          "position": 9.2
+        },
+        {
+          "page": "https://moroccotravelexperts.com/ru/%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D0%B0%D1%85/%D0%BC%D0%B5%D1%87%D0%B5%D1%82%D1%8C-%D0%A5%D0%B0%D1%81%D0%B0%D0%BD%D0%B0-II-%D0%B2-%D0%9A%D0%B0%D1%81%D0%B0%D0%B1%D0%BB%D0%B0%D0%BD%D0%BA%D0%B5/",
+          "clicks": 1,
+          "impressions": 30,
+          "ctr": 3.33,
+          "position": 8.7
+        }
+      ],
+      "opportunities": [
+        {
+          "query": "morocco family tours",
+          "clicks": 1,
+          "impressions": 160,
+          "ctr": 0.63,
+          "position": 12.5,
+          "potential": 48
+        },
+        {
+          "query": "morocco small group tours expert guides",
+          "clicks": 0,
+          "impressions": 55,
+          "ctr": 0,
+          "position": 8.7,
+          "potential": 17
+        },
+        {
+          "query": "esperti del marocco",
+          "clicks": 0,
+          "impressions": 22,
+          "ctr": 0,
+          "position": 19,
+          "potential": 7
+        },
+        {
+          "query": "fas agadir turu",
+          "clicks": 0,
+          "impressions": 18,
+          "ctr": 0,
+          "position": 12.3,
+          "potential": 5
+        },
+        {
+          "query": "moroccan family tours",
+          "clicks": 0,
+          "impressions": 17,
+          "ctr": 0,
+          "position": 11.7,
+          "potential": 5
+        },
+        {
+          "query": "morocco travel agency",
+          "clicks": 1,
+          "impressions": 16,
+          "ctr": 6.25,
+          "position": 19.6,
+          "potential": 5
+        },
+        {
+          "query": "family morocco tour",
+          "clicks": 0,
+          "impressions": 13,
+          "ctr": 0,
+          "position": 11.8,
+          "potential": 4
+        },
+        {
+          "query": "fes (şehir)",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 10.2,
+          "potential": 3
+        },
+        {
+          "query": "fes fas",
+          "clicks": 0,
+          "impressions": 10,
+          "ctr": 0,
+          "position": 12.6,
+          "potential": 3
+        }
+      ]
+    }
+  ]
+}

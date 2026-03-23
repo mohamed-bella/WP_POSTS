@@ -1,11 +1,12 @@
 const { runInstagramStealth } = require('./services/instagram-stealth');
 const { runInstagramPoster } = require('./services/instagram-poster');
 const { connectToWhatsApp, sendWhatsAppUpdate, waitForWhatsAppConnection } = require('./services/whatsapp');
-const settings = require('../settings.json');
-const path = require('path');
+const { startDashboard, registerBotFunction } = require('./dashboard-server');
+const { logAction, readSettings } = require('./services/db');
+const { pullDailySnapshot } = require('./services/gsc');
+const { runAutoPoster } = require('./index');
 require('dotenv').config();
 
-// Helper to delay
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Generate exactly N random times today between startHour and endHour
@@ -45,17 +46,9 @@ async function startScheduler() {
   console.log('--- Starting Social Media Engagement Bot ---');
 
   while (true) {
-    // let settings = { workflows: { instagram_engage: false } }; // Removed as settings are now imported directly
-    // try {
-    //   if (fs.existsSync(settingsPath)) {
-    //     settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-    //   }
-    // } catch (e) {
-    //   console.warn('Could not read settings.json');
-    // }
-
+    const settings = await readSettings();
     if (!settings.workflows?.instagram_engage) {
-      console.log('Instagram engagement is disabled in settings.json. Sleeping for 1 hour...');
+      console.log('Instagram engagement is disabled in settings. Sleeping for 1 hour...');
       await sleep(60 * 60 * 1000);
       continue;
     }
@@ -90,9 +83,11 @@ async function startScheduler() {
       console.log(`\n🚀 It's time! Initiating engagement run...`);
       try {
         await runInstagramStealth();
+        logAction('instagram_engage', 'success', { trigger: 'scheduler' });
       } catch (err) {
         console.error('Engagement failed:', err.message);
         console.error('Will retry on the next scheduled run.');
+        logAction('instagram_engage', 'error', { trigger: 'scheduler', error: err.message });
       }
     }
 
@@ -111,13 +106,9 @@ async function startScheduler() {
 async function startPosterScheduler() {
   console.log('--- Starting Instagram Auto-Poster ---');
   while (true) {
-    // let settings = { workflows: { instagram_poster: false } }; // Removed as settings are now imported directly
-    // try {
-    //   settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
-    // } catch(e) {}
-
+    const settings = await readSettings();
     if (!settings.workflows?.instagram_poster) {
-      console.log('[Poster] Disabled in settings.json. Sleeping 1h...');
+      console.log('[Poster] Disabled in settings. Sleeping 1h...');
       await sleep(60 * 60 * 1000);
       continue;
     }
@@ -141,8 +132,10 @@ async function startPosterScheduler() {
       console.log('[Poster] 🚀 Posting to Instagram now...');
       try {
         await runInstagramPoster();
+        logAction('instagram_post', 'success', { trigger: 'scheduler' });
       } catch(err) {
         console.error('[Poster] ❌', err.message);
+        logAction('instagram_post', 'error', { trigger: 'scheduler', error: err.message });
       }
     }
 
@@ -151,16 +144,152 @@ async function startPosterScheduler() {
   }
 }
 
-// Start immediately if executed directly
+// ─── GSC Scheduler: Daily Snapshot ─────────────────────────────
+async function startGscScheduler() {
+  console.log('--- Starting GSC Daily Snapshot Scheduler ---');
+  while (true) {
+    const now = new Date();
+    const target = new Date();
+    target.setHours(6, 0, 0, 0); // 6 AM
+    
+    if (now > target) {
+       target.setDate(target.getDate() + 1);
+    }
+    
+    const msToWait = target - now;
+    console.log(`[GSC] ⏳ Next snapshot scheduled for ${formatTime(target)} (${Math.floor(msToWait / 3600000)}h from now)`);
+    await sleep(msToWait);
+    
+    try {
+      await pullDailySnapshot();
+    } catch (err) {
+      console.error('[GSC] ❌ Scheduled snapshot failed:', err.message);
+    }
+  }
+}
+
+// ─── Content Refresher Scheduler: Weekly Audit ─────────────────
+async function startRefresherScheduler() {
+  console.log('--- Starting Content Refresh Scheduler ---');
+  const { runRefreshPipeline } = require('./services/refresher');
+  
+  while (true) {
+    let target = new Date();
+    target.setHours(4, 0, 0, 0); // 4 AM
+    
+    // Find next Sunday
+    target.setDate(target.getDate() + ((7 - target.getDay()) % 7));
+    if (target <= new Date()) {
+       target.setDate(target.getDate() + 7);
+    }
+    
+    const msToWait = target - new Date();
+    console.log(`[Refresher] ⏳ Next site audit scheduled for ${formatTime(target)} (${Math.floor(msToWait / 3600000 / 24)} days from now)`);
+    await sleep(msToWait);
+    
+    try {
+      await runRefreshPipeline(2); // Auto-refresh max 2 posts per week
+    } catch (err) {
+      console.error('[Refresher] ❌ Scheduled pipeline failed:', err.message);
+    }
+  }
+}
+
+/**
+ * Executes the entire suite of automation tasks sequentially.
+ * Used for full workflow testing from the dashboard.
+ */
+async function runFullSuite() {
+  const secondaryNumber = process.env.SECONDARY_WHATSAPP_NUMBER || null;
+  console.log('\n🌟 --- STARTING FULL WORKFLOW SUITE --- 🌟');
+  await sendWhatsAppUpdate('🚀 *Full Workflow Test Started!*');
+  
+  let resume = `📝 *FULL WORKFLOW RESUME*\n---\n`;
+
+  try {
+    // 1. Content Pipeline
+    console.log('\n[Full Suite] (1/4) Starting Content Pipeline...');
+    const wpResults = await runAutoPoster(); 
+    resume += `✅ *Content Pipeline*: Done\n`;
+    if (wpResults && wpResults.length > 0) {
+        resume += `🔗 *New Posts*:\n${wpResults.map(url => `• ${url}`).join('\n')}\n`;
+    }
+    
+    // 2. Instagram Engagement
+    console.log('\n[Full Suite] (2/4) Starting Instagram Engagement...');
+    await runInstagramStealth();
+    resume += `✅ *IG Stealth*: Completed\n`;
+    
+    // 3. Instagram Posting
+    console.log('\n[Full Suite] (3/4) Starting Instagram Posting...');
+    const igPost = await runInstagramPoster();
+    resume += `✅ *IG Photo*: Uploaded\n`;
+    
+    // 4. GSC Snapshot
+    console.log('\n[Full Suite] (4/5) Starting GSC Snapshot...');
+    await pullDailySnapshot();
+    resume += `✅ *GSC Stats*: Synced\n`;
+
+    // 5. Tumblr is now natively handled by runAutoPoster pipeline
+    console.log('\n[Full Suite] Skipping standalone Tumblr step (now integrated in Content Pipeline)...');
+    resume += `✅ *Tumblr*: Published (Via Pipeline)\n`;
+    
+    console.log('\n✨ --- FULL WORKFLOW SUITE COMPLETED --- ✨');
+    const finalMsg = `${resume}\n✨ *STATUS: SUCCESS*`;
+    
+    await sendWhatsAppUpdate(finalMsg); // Send to owner
+    if (secondaryNumber) {
+      await sendWhatsAppUpdate(finalMsg, secondaryNumber); // Send to secondary number
+    }
+    
+    logAction('full_workflow_test', 'success', { details: 'All stages executed' });
+  } catch (error) {
+    console.error('\n❌ --- FULL WORKFLOW SUITE FAILED --- ❌');
+    const failMsg = `❌ *FULL WORKFLOW FAILED*\nError: ${error.message}`;
+    await sendWhatsAppUpdate(failMsg);
+    if (secondaryNumber) {
+      await sendWhatsAppUpdate(failMsg, secondaryNumber);
+    }
+    logAction('full_workflow_test', 'error', { error: error.message });
+    throw error;
+  }
+}
+
 // Start the flow
 (async () => {
-  // Initialize WhatsApp if enabled
-  if (settings.workflows.whatsapp_notifications) {
+  // 🛡️ Prevent multiple instance from running (Fix for 440 Conflict)
+  const { acquireLock } = require('./utils/lock');
+  acquireLock();
+
+  // Warm up the DB sequentially to prevent 'fetch failed' DNS race conditions in Node
+  try { await readSettings(); } catch(e) {}
+
+  // Start the dashboard server
+  startDashboard();
+
+  // Register functions in dashboard
+  try {
+    registerBotFunction('runAutoPoster', runAutoPoster);
+    registerBotFunction('runFullSuite', runFullSuite);
+  } catch (e) {
+    console.warn('Could not register functions for dashboard tests.');
+  }
+
+  // Initialize WhatsApp if enabled (Safe Startup)
+  const startupSettings = await readSettings();
+  if (startupSettings.workflows?.whatsapp_notifications) {
     try {
+      console.log('[Startup] Initializing WhatsApp Notification Engine...');
       await connectToWhatsApp();
-      await waitForWhatsAppConnection(); // Wait for user to link/connect
+      // We don't await waitForWhatsAppConnection here to avoid blocking the whole bot if the user hasn't scanned yet
+      waitForWhatsAppConnection().then(() => {
+        console.log('[Startup] WhatsApp connected and ready.');
+      }).catch(e => {
+        console.warn('[Startup] WhatsApp connection timed out or failed in background:', e.message);
+      });
     } catch (err) {
       console.error('❌ Failed to start WhatsApp bot:', err.message);
+      console.log('Bot will continue without WhatsApp notifications.');
     }
   }
 
@@ -168,27 +297,30 @@ async function startPosterScheduler() {
     console.log('Manual trigger: posting a photo to Instagram NOW...');
     await sendWhatsAppUpdate('🎯 *Manual Trigger:* Starting Instagram post upload...');
     await runInstagramPoster();
+    logAction('instagram_post', 'success', { trigger: 'manual_cli' });
     console.log('Manual post done.');
     process.exit(0);
   } else if (process.argv.includes('--now')) {
     console.log('Manual trigger detected. Running stealth engagement ONCE now...');
     await sendWhatsAppUpdate('🎯 *Manual Trigger:* Starting Instagram engagement...');
     runInstagramStealth().then(() => {
+      logAction('instagram_engage', 'success', { trigger: 'manual_cli' });
       console.log('Manual run finished.');
       process.exit(0);
     }).catch(err => {
+      logAction('instagram_engage', 'error', { trigger: 'manual_cli', error: err.message });
       console.error(err);
       process.exit(1);
     });
   } else {
-    // Run both the engagement scheduler and the poster scheduler in parallel
+    // Run all schedulers in parallel
     Promise.all([
       startScheduler(),
-      startPosterScheduler()
+      startPosterScheduler(),
+      startGscScheduler(),
+      startRefresherScheduler()
     ]);
   }
 })();
-
-module.exports = { startScheduler };
 
 module.exports = { startScheduler };

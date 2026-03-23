@@ -2,16 +2,19 @@ const axios = require('axios');
 const FormData = require('form-data');
 require('dotenv').config();
 
-const WP_URL = process.env.WP_URL;
-const WP_USERNAME = process.env.WP_USERNAME;
-const WP_PASSWORD = process.env.WP_APPLICATION_PASSWORD;
-
-// Basic Auth for WP REST API
+// Read at call time so dashboard config changes take effect
 function getAuth() {
-  if (!WP_URL || !WP_USERNAME || !WP_PASSWORD) {
+  const wpUrl = process.env.WP_URL;
+  const wpUser = process.env.WP_USERNAME;
+  const wpPass = process.env.WP_APPLICATION_PASSWORD;
+  if (!wpUrl || !wpUser || !wpPass) {
     throw new Error('Missing WordPress credentials: WP_URL, WP_USERNAME, or WP_APPLICATION_PASSWORD not set in .env');
   }
-  return Buffer.from(`${WP_USERNAME}:${WP_PASSWORD}`).toString('base64');
+  return Buffer.from(`${wpUser}:${wpPass}`).toString('base64');
+}
+
+function getWpUrl() {
+  return process.env.WP_URL;
 }
 
 /**
@@ -33,7 +36,7 @@ async function uploadMedia(imageUrl, fileName, altText, imageTitle) {
     form.append('alt_text', altText);
     form.append('title', imageTitle || fileName);
 
-    const response = await axios.post(`${WP_URL}/wp-json/wp/v2/media`, form, {
+    const response = await axios.post(`${getWpUrl()}/wp-json/wp/v2/media`, form, {
       headers: { ...form.getHeaders(), Authorization: `Basic ${auth}` },
     });
 
@@ -69,18 +72,38 @@ async function createPost({
 
   const heroImageId = featuredMediaId ? parseInt(featuredMediaId, 10) : null;
 
-  // Build the FAQ JSON-LD script block and append to the content
-  let contentWithFaq = content;
+  // Handle Multiple JSON-LD Schemas (FAQ and Review)
+  let schemaHtml = '';
   if (faqSchema) {
     try {
-      const faqJson = typeof faqSchema === 'string' ? faqSchema : JSON.stringify(faqSchema, null, 2);
-      contentWithFaq += `\n<script type="application/ld+json">\n${faqJson}\n</script>`;
+      // If it's the new nested object format
+      if (faqSchema.faq) {
+        schemaHtml += `\n<script type="application/ld+json">\n${JSON.stringify(faqSchema.faq, null, 2)}\n</script>\n`;
+      } else if (Array.isArray(faqSchema)) {
+         // Old format compatibility: convert array of {question, answer} to FAQPage schema
+         const oldFaq = {
+           "@context": "https://schema.org",
+           "@type": "FAQPage",
+           "mainEntity": faqSchema.map(item => ({
+             "@type": "Question",
+             "name": item.question,
+             "acceptedAnswer": { "@type": "Answer", "text": item.answer }
+           }))
+         };
+         schemaHtml += `\n<script type="application/ld+json">\n${JSON.stringify(oldFaq, null, 2)}\n</script>\n`;
+      }
+  
+      if (faqSchema.review) {
+        schemaHtml += `\n<script type="application/ld+json">\n${JSON.stringify(faqSchema.review, null, 2)}\n</script>\n`;
+      }
     } catch (e) {
       console.warn('Could not serialize faqSchema:', e.message);
     }
   }
 
-  const postContent = `<div class="mte-content-zone"><div class="mte-story-body">${contentWithFaq}</div></div>`;
+  const finalContent = `${content}\n${schemaHtml}`;
+
+  const postContent = `<div class="mte-content-zone"><div class="mte-story-body">${finalContent}</div></div>`;
 
   const payload = {
     title,
@@ -95,7 +118,7 @@ async function createPost({
       author_name:    authorName    || 'Hamid El Maimouni',
       reading_time:   readingTime   || '',
       hero_image:     heroImageId,
-      story_content:  contentWithFaq,
+      story_content:  finalContent,
     },
 
     // SEO meta
@@ -110,7 +133,7 @@ async function createPost({
 
   try {
     const response = await axios.post(
-      `${WP_URL}/wp-json/wp/v2/mte_story`,
+      `${getWpUrl()}/wp-json/wp/v2/mte_story`,
       payload,
       { headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' } },
     );
@@ -122,7 +145,64 @@ async function createPost({
   }
 }
 
+/**
+ * Fetches all published mte_story posts (id, title, link, slug, content).
+ * Handles pagination automatically.
+ */
+async function getAllPosts() {
+  const auth = getAuth();
+  let allPosts = [];
+  let page = 1;
+  const perPage = 100; // max allowed byWP API
+
+  try {
+    while (true) {
+      console.log(`[WP] Fetching stories page ${page}...`);
+      const response = await axios.get(
+        `${getWpUrl()}/wp-json/wp/v2/mte_story?status=publish&per_page=${perPage}&page=${page}&_fields=id,title,link,slug`,
+        { headers: { Authorization: `Basic ${auth}` } }
+      );
+      
+      const posts = response.data;
+      if (!posts || posts.length === 0) break;
+      allPosts = allPosts.concat(posts);
+      
+      const totalPages = parseInt(response.headers['x-wp-totalpages'] || '1', 10);
+      if (page >= totalPages) break;
+      page++;
+    }
+    console.log(`[WP] Retrieved ${allPosts.length} published stories.`);
+    return allPosts;
+  } catch (error) {
+    if (error.response?.data?.code === 'rest_post_invalid_page_number') {
+      return allPosts; // Reached end
+    }
+    console.error('[WP] Error fetching all posts:', error.response?.data || error.message);
+    return allPosts;
+  }
+}
+
+/**
+ * Updates an existing WP post (PATCH).
+ */
+async function updatePost(postId, payload) {
+  const auth = getAuth();
+  try {
+    const response = await axios.post(
+      `${getWpUrl()}/wp-json/wp/v2/mte_story/${postId}`,
+      payload,
+      { headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`[WP] Error updating post ${postId}:`, error.response?.data || error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   uploadMedia,
   createPost,
+  getAllPosts,
+  updatePost,
 };

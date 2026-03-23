@@ -1,7 +1,41 @@
 const { google } = require('googleapis');
 const { sendWhatsAppUpdate } = require('./whatsapp');
+const { logAction } = require('./db');
 const fs = require('fs');
 require('dotenv').config();
+
+/**
+ * Retries an async operation if a network error (like EAI_AGAIN) occurs.
+ */
+/**
+ * Retries an async operation if a network error (like EAI_AGAIN) occurs.
+ */
+async function executeWithRetry(operation, maxRetries = 5, delayMs = 10000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (err) {
+      const errMsg = err.message || '';
+      const isNetworkErr = (
+        err.code === 'EAI_AGAIN' || 
+        err.code === 'ECONNRESET' || 
+        err.code === 'ETIMEDOUT' || 
+        err.code === 'ENOTFOUND' ||
+        errMsg.includes('EAI_AGAIN') ||
+        errMsg.includes('getaddrinfo')
+      );
+
+      if (isNetworkErr && i < maxRetries - 1) {
+        console.warn(`⚠️ [Network] ${err.code || 'DNS'} error. Retrying in ${delayMs / 1000}s... (Attempt ${i + 1} of ${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+        // Exponential backoff
+        delayMs *= 1.5;
+      } else {
+        throw err;
+      }
+    }
+  }
+}
 
 /**
  * Creates a post on a Blogger website.
@@ -37,20 +71,22 @@ async function createBloggerPost(blogId, title, content) {
     // We add a disclaimer linking back to the original post for SEO purposes
     const seoDisclaimer = `<p><br/><em>Originally published on Morocco Travel Experts.</em></p>`;
 
-    const response = await blogger.posts.insert({
+    const response = await executeWithRetry(() => blogger.posts.insert({
       blogId: blogId.trim(),
       isDraft: false,
       requestBody: {
         title: title,
         content: content + seoDisclaimer,
       },
-    });
+    }));
 
     console.log(`✅ Post published to Blogger (${blogId}): ${response.data.url}`);
     await sendWhatsAppUpdate(`📝 *Blogger Published:* ${response.data.title}\n🔗 ${response.data.url}`);
+    logAction('blogger_post', 'success', { blogId, title, url: response.data.url });
     return response.data.url;
   } catch (error) {
     console.error(`Error posting to Blogger (blogId: ${blogId}):`, error.response?.data?.error?.message || error.message);
+    logAction('blogger_post', 'error', { blogId, title, error: error.response?.data?.error?.message || error.message });
     return null;
   }
 }
@@ -72,18 +108,4 @@ async function publishToMultipleBloggers(blogIds, title, content) {
   return publishedUrls;
 }
 
-module.exports = { publishToMultipleBloggers, createBloggerPost, sendWhatsAppUpdate };
-
-// Manual test block
-if (require.main === module && process.argv.includes('--test')) {
-    (async () => {
-        console.log('🧪 Testing Blogger Publishing & Indexing...');
-        const testContent = 'This is a test post from the automation suite at ' + new Date().toISOString();
-        const url = await createBloggerPost(
-            process.env.BLOGGER_BLOG_ID_WP_POSTS, 
-            'Automation Test Post', 
-            testContent
-        );
-        console.log('✅ Test post live at:', url);
-    })();
-}
+module.exports = { publishToMultipleBloggers, createBloggerPost };

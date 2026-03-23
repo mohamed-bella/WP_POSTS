@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { sendWhatsAppUpdate } = require('./whatsapp');
+const { logAction } = require('./db');
 require('dotenv').config();
 
 puppeteer.use(StealthPlugin());
@@ -297,10 +298,12 @@ async function runInstagramPoster() {
     if (shared) {
       console.log('🎉 Post submission sequence complete. Waiting for upload to finish...');
       await sendWhatsAppUpdate(`✅ *Instagram Post Shared!* \nCaption: ${caption.substring(0, 100)}...`);
+      logAction('instagram_post', 'success', { caption: caption.substring(0, 80), query });
       await randomSleep(15000, 20000);
     } else {
       console.error('❌ Failed to trigger Share action.');
       await page.screenshot({ path: 'debug-no-share.png' });
+      logAction('instagram_post', 'failure', { caption: caption.substring(0, 80), query, error: 'Failed to trigger Share action' });
     }
 
     // 10. Final Verification
@@ -314,6 +317,7 @@ async function runInstagramPoster() {
     }
 
     console.log('✅ Workflow complete.');
+    return { success: true, query, caption };
 
   } catch (error) {
     console.error('\n❌ Instagram poster failed:', error.message);
@@ -322,6 +326,7 @@ async function runInstagramPoster() {
       if (pages.length > 0) await pages[0].screenshot({ path: 'debug-post.png' });
       console.log('📸 Saved debug screenshot to debug-post.png');
     } catch(e) {}
+    return { success: false, error: error.message };
   } finally {
     await browser.close();
     // Clean up temp file
